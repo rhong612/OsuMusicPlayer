@@ -19,7 +19,7 @@ public class MusicPlayer
 		if (player != null) {
 			player.dispose();
 		}
-		player = new MediaPlayer(new Media("file:///" + song.getFileLocation().replace("\\", "/")));
+		player = new MediaPlayer(new Media("file:///" + song.getFileLocation().replace("\\", "/").replaceAll(" ", "%20")));
 		player.play();
 	}
 

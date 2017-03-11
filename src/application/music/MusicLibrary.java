@@ -1,7 +1,9 @@
 package application.music;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +19,9 @@ public class MusicLibrary
 {
 	private ObservableList<Song> songData;
 	
+	private static final int TITLE = 0;
+	private static final int ARTIST = 1;
+	
 	public MusicLibrary() {
 		songData = FXCollections.observableArrayList();
 	}
@@ -30,9 +35,23 @@ public class MusicLibrary
 		if (file == null) {
 			return;
 		}
-		extractOsuMetaData(file);
+	
 		if (file.getName().endsWith((".mp3"))) {
-			songData.add(new Song(file.getName(), "test", "test", file.getAbsolutePath()));
+			ArrayList<String> metaData = null;
+			try
+			{
+				metaData = extractOsuMetaData(file);
+				if (metaData == null) {
+					Alert alert = new Alert(AlertType.ERROR, ".osu file not found!", ButtonType.OK);
+					alert.showAndWait();
+				}
+			}
+			catch (FileNotFoundException e)
+			{
+				//Something is seriously wrong if this occurs
+				e.printStackTrace();
+			}
+			songData.add(new Song(metaData.get(TITLE).replace("Title:", ""), metaData.get(ARTIST).replace("Artist:", ""), "test", file.getAbsolutePath()));
 		}
 		else {
 			Alert alert = new Alert(AlertType.ERROR, "Please select an mp3 file!", ButtonType.OK);
@@ -40,7 +59,7 @@ public class MusicLibrary
 		}
 	}
 	
-	private ArrayList<String> extractOsuMetaData(File file) {
+	private ArrayList<String> extractOsuMetaData(File file) throws FileNotFoundException {
 		File parentFolder = file.getParentFile();
 		if (!parentFolder.isDirectory()) {
 			return null;
@@ -52,8 +71,16 @@ public class MusicLibrary
 			return null;
 		}
 		
-		System.out.println(osuFiles[0]);
-		return null;
+		ArrayList<String> metaData = new ArrayList<>();
+		Scanner reader = new Scanner(osuFiles[0]);
+		while (reader.hasNextLine()) {
+			String line = reader.nextLine();
+			if (line.equals("[Metadata]")) {
+				metaData.add(reader.nextLine()); //Title
+				metaData.add(reader.nextLine()); //Artist
+			}
+		}
+		return metaData;
 	}
 	
 	public void addFolder(Stage stage) {
