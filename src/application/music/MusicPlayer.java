@@ -9,24 +9,36 @@ import javafx.scene.media.MediaPlayer;
 public class MusicPlayer
 {
 	private MediaPlayer player;
+	private Song currentSong;
 	
 	public MusicPlayer() {
 		player = null;
+		currentSong = null;
 	}
 	
 	public void play(Song song)
 	{
-		if (player != null) {
-			player.dispose();
+		if (song == currentSong) {
+			if (player.getStatus() == MediaPlayer.Status.PAUSED) {
+				System.out.println("Resuming");
+				player.play();
+			}	
 		}
-		player = new MediaPlayer(new Media("file:///" + song.getFileLocation().replace("\\", "/").replaceAll(" ", "%20")));
-		player.play();
+		else {
+			if (player != null) {
+				player.dispose();
+			}
+			currentSong = song;
+			player = new MediaPlayer(new Media("file:///" + song.getFileLocation().replace("\\", "/").replaceAll(" ", "%20")));
+			player.play();	
+		}
 	}
 
 	public void pause()
 	{
-		// TODO Auto-generated method stub
-		System.out.println("Pause pressed");
+		if (player.getStatus() == MediaPlayer.Status.PLAYING) {
+			player.pause();
+		}
 	}
 
 	public void setRepeat()
