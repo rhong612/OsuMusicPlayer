@@ -10,14 +10,22 @@ public class MusicPlayer
 {
 	private MediaPlayer player;
 	private Song currentSong;
+	private boolean repeat;
+	private boolean shuffle;
 	
 	public MusicPlayer() {
 		player = null;
 		currentSong = null;
+		repeat = false;
+		shuffle = false;
 	}
 	
 	public void play(Song song)
 	{
+		if (song == null) {
+			return;
+		}
+		
 		if (song == currentSong) {
 			if (player.getStatus() == MediaPlayer.Status.PAUSED) {
 				System.out.println("Resuming");
@@ -32,26 +40,30 @@ public class MusicPlayer
 			player = new MediaPlayer(new Media("file:///" + song.getFileLocation().replace("\\", "/").replaceAll(" ", "%20")));
 			player.play();	
 		}
+		
+
+		player.setCycleCount(repeat ? MediaPlayer.INDEFINITE : 1);
 	}
 
 	public void pause()
 	{
+		if (currentSong == null) {
+			return;
+		}
+		
 		if (player.getStatus() == MediaPlayer.Status.PLAYING) {
 			player.pause();
 		}
 	}
 
-	public void setRepeat()
+	public void setRepeat(boolean repeat)
 	{
-		// TODO Auto-generated method stub
-		System.out.println("Set Repeat pressed");
+		this.repeat = repeat;
 	}
 
-	public void setShuffle()
+	public void setShuffle(boolean shuffle)
 	{
-		// TODO Auto-generated method stub
-
-		System.out.println("Set Shuffle pressed");
+		this.shuffle = shuffle;
 	}
 
 }

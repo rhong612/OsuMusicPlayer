@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -125,23 +126,34 @@ public class Main extends Application
 				player.pause();
 			}
 		});
-		MenuItem repeatItem = new MenuItem("Repeat");
+		CheckMenuItem repeatItem = new CheckMenuItem("Repeat");
+		repeatItem.setSelected(false);
+		CheckMenuItem shuffleItem = new CheckMenuItem("Shuffle");
+		shuffleItem.setSelected(false);
 		repeatItem.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0)
 			{
-				player.setRepeat();
+				if (repeatItem.isSelected()) {
+					shuffleItem.setSelected(false);
+				}
+				player.setRepeat(repeatItem.isSelected());
 			}
 		});
-		MenuItem shuffleItem = new MenuItem("Shuffle");
 		shuffleItem.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0)
 			{
-				player.setShuffle();
+				if (shuffleItem.isSelected()) {
+					repeatItem.setSelected(false);	
+				}
+				player.setShuffle(shuffleItem.isSelected());
 			}
 		});
-		MenuItem toggleImageItem = new MenuItem("Show Image");
+		
+		
+		CheckMenuItem toggleImageItem = new CheckMenuItem("Show Image");
+		toggleImageItem.setSelected(false);
 		toggleImageItem.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0)
