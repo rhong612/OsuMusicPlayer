@@ -1,5 +1,7 @@
 package application.views;
 
+import java.io.File;
+
 import application.music.MusicLibrary;
 import application.music.MusicPlayer;
 import application.music.Song;
@@ -8,7 +10,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Menu;
@@ -85,7 +90,7 @@ public class Main extends Application
 			@Override
 			public void handle(ActionEvent arg0)
 			{
-				library.addFile(primaryStage);
+				library.addFile(chooseFile(primaryStage));
 			}
 		});
 		MenuItem addFolderItem = new MenuItem("Add Folder");
@@ -93,7 +98,7 @@ public class Main extends Application
 			@Override
 			public void handle(ActionEvent arg0)
 			{
-				library.addFolder(primaryStage);
+				library.addFolder(chooseFolder(primaryStage));
 			}
 		});
 		MenuItem removeFileItem = new MenuItem("Remove File");
@@ -193,6 +198,21 @@ public class Main extends Application
 		
 		menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
 		return menuBar;
+	}
+	
+
+	
+	private File chooseFile(Stage stage) {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Select a file to add");
+		fileChooser.getExtensionFilters().add(new ExtensionFilter("MP3", "*.mp3"));
+		return fileChooser.showOpenDialog(stage);
+	}
+	
+	private File chooseFolder(Stage stage) {
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		directoryChooser.setTitle("Select the Songs folder");
+		return directoryChooser.showDialog(stage);
 	}
 	
 	public static void main(String[] args)

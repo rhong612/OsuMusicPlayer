@@ -35,12 +35,7 @@ public class MusicLibrary
 		songData = FXCollections.observableArrayList();
 	}
 	
-	public void addFile(Stage stage) {
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Select a file to add");
-		fileChooser.getExtensionFilters().add(new ExtensionFilter("MP3", "*.mp3"));
-		File file = fileChooser.showOpenDialog(stage);
-		
+	public void addFile(File file) {
 		if (file == null) {
 			return;
 		}
@@ -114,10 +109,11 @@ public class MusicLibrary
 		return metaData;
 	}
 	
-	public void addFolder(Stage stage) {
-		DirectoryChooser directoryChooser = new DirectoryChooser();
-		directoryChooser.setTitle("Select the Songs folder");
-		File directory = directoryChooser.showDialog(stage);
+	public void addFolder(File directory) {
+		if (directory == null) {
+			return;
+		}
+		
 	}
 
 	public void removeFile(Stage primaryStage)
