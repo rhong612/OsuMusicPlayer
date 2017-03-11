@@ -28,7 +28,6 @@ public class MusicPlayer
 		
 		if (song == currentSong) {
 			if (player.getStatus() == MediaPlayer.Status.PAUSED) {
-				System.out.println("Resuming");
 				player.play();
 			}	
 		}
