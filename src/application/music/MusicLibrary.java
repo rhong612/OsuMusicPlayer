@@ -44,6 +44,7 @@ public class MusicLibrary
 				if (metaData == null) {
 					Alert alert = new Alert(AlertType.ERROR, ".osu file not found!", ButtonType.OK);
 					alert.showAndWait();
+					songData.add(new Song(file.getName(), "", "", file.getAbsolutePath()));
 				}
 				else {
 					songData.add(new Song(metaData.get(TITLE).replace("Title:", ""), metaData.get(ARTIST).replace("Artist:", ""), "test", file.getAbsolutePath()));
