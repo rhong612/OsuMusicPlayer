@@ -1,9 +1,14 @@
 package application.music;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -13,19 +18,30 @@ public class MusicLibrary
 	private ObservableList<Song> songData;
 	
 	public MusicLibrary() {
-		songData = FXCollections.observableArrayList(
-			    new Song("Jacob", "Smith", "jacob.smith@example.com"),
-			    new Song("Isabella", "Johnson", "isabella.johnson@example.com"),
-			    new Song("Ethan", "Williams", "ethan.williams@example.com"),
-			    new Song("Emma", "Jones", "emma.jones@example.com"),
-			    new Song("Michael", "Brown", "michael.brown@example.com")
-			);
+		songData = FXCollections.observableArrayList();
 	}
 	
 	public void addFile(Stage stage) {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Select a file to add");
 		File file = fileChooser.showOpenDialog(stage);
+		
+		if (file == null) {
+			return;
+		}
+		
+		if (file.getName().endsWith((".mp3"))) {
+			songData.add(new Song(file.getName(), "test", "test", file.getAbsolutePath()));
+		}
+		else {
+			Alert alert = new Alert(AlertType.ERROR, "Please select an mp3 file!", ButtonType.OK);
+			alert.showAndWait();
+		}
+	}
+	
+	//TODO: Will be implemented in the future
+	private ArrayList<String> extractMp3MetaData() {
+		return null;
 	}
 	
 	public void addFolder(Stage stage) {
