@@ -4,6 +4,8 @@ import application.music.MusicLibrary;
 import application.music.MusicPlayer;
 import application.music.Song;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
@@ -13,6 +15,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 
@@ -51,9 +54,13 @@ public class Main extends Application
 		TableView<Song> table = new TableView<>();
 		
 		TableColumn<Song, String> nameColumn = new TableColumn<>("Name");
+		nameColumn.setCellValueFactory(new PropertyValueFactory<Song, String>("name"));
 		TableColumn<Song, String> artistColumn = new TableColumn<>("Artist");
+		artistColumn.setCellValueFactory(new PropertyValueFactory<Song, String>("artist"));
 		TableColumn<Song, String> lengthColumn = new TableColumn<>("Length");
+		lengthColumn.setCellValueFactory(new PropertyValueFactory<Song, String>("length"));
 		
+		table.setItems(library.getSongData());
 		table.getColumns().addAll(nameColumn, artistColumn, lengthColumn);
 		
 		return table;
