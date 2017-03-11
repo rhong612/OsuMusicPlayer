@@ -1,0 +1,27 @@
+.metadata
+local.properties
+.settings/
+# Eclipse Core
+.project
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+/build
+
+*/bin
+*bin
+*.bin
+*bin
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+# Java annotation processor (APT)
+.factorypath
