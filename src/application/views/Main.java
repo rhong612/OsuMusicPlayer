@@ -26,6 +26,7 @@ public class Main extends Application
 	
 	private MusicLibrary library;
 	private MusicPlayer player;
+	private TableView<Song> songTable;
 	
 	@Override
 	public void start(Stage primaryStage)
@@ -37,7 +38,7 @@ public class Main extends Application
 		primaryStage.getIcons().add(new Image("file:res/Osu_icon.png"));
 		
 		MenuBar menuBar = initializeMenuBar(primaryStage);
-		TableView<Song> songTable = initializeTableView();
+		songTable = initializeTableView();
 		
 		Scene scene = new Scene(new VBox(), WINDOW_WIDTH, WINDOW_HEIGHT);
         ((VBox) scene.getRoot()).getChildren().addAll(menuBar, songTable);
@@ -112,7 +113,8 @@ public class Main extends Application
 			@Override
 			public void handle(ActionEvent arg0)
 			{
-				//player.play();
+				Song song = songTable.getSelectionModel().getSelectedItem();
+				player.play(song);
 			}
 		});
 		MenuItem pauseItem = new MenuItem("Pause");

@@ -45,13 +45,15 @@ public class MusicLibrary
 					Alert alert = new Alert(AlertType.ERROR, ".osu file not found!", ButtonType.OK);
 					alert.showAndWait();
 				}
+				else {
+					songData.add(new Song(metaData.get(TITLE).replace("Title:", ""), metaData.get(ARTIST).replace("Artist:", ""), "test", file.getAbsolutePath()));
+				}
 			}
 			catch (FileNotFoundException e)
 			{
 				//Something is seriously wrong if this occurs
 				e.printStackTrace();
 			}
-			songData.add(new Song(metaData.get(TITLE).replace("Title:", ""), metaData.get(ARTIST).replace("Artist:", ""), "test", file.getAbsolutePath()));
 		}
 		else {
 			Alert alert = new Alert(AlertType.ERROR, "Please select an mp3 file!", ButtonType.OK);
@@ -67,7 +69,7 @@ public class MusicLibrary
 		
 		File[] osuFiles = parentFolder.listFiles((dir, name) -> name.endsWith(".osu"));
 		
-		if (osuFiles == null) {
+		if (osuFiles == null || osuFiles.length == 0) {
 			return null;
 		}
 		
