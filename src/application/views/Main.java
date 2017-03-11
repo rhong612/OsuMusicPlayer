@@ -2,6 +2,7 @@ package application.views;
 
 import application.music.MusicLibrary;
 import application.music.MusicPlayer;
+import application.music.Song;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -10,6 +11,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 
@@ -31,9 +34,10 @@ public class Main extends Application
 		primaryStage.getIcons().add(new Image("file:res/Osu_icon.png"));
 		
 		MenuBar menuBar = initializeMenuBar(primaryStage);
+		TableView<Song> songTable = initializeTableView();
 		
 		Scene scene = new Scene(new VBox(), WINDOW_WIDTH, WINDOW_HEIGHT);
-        ((VBox) scene.getRoot()).getChildren().addAll(menuBar);
+        ((VBox) scene.getRoot()).getChildren().addAll(menuBar, songTable);
 		
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		
@@ -42,6 +46,20 @@ public class Main extends Application
 	}
 
 	
+	private TableView<Song> initializeTableView()
+	{
+		TableView<Song> table = new TableView<>();
+		
+		TableColumn<Song, String> nameColumn = new TableColumn<>("Name");
+		TableColumn<Song, String> artistColumn = new TableColumn<>("Artist");
+		TableColumn<Song, String> lengthColumn = new TableColumn<>("Length");
+		
+		table.getColumns().addAll(nameColumn, artistColumn, lengthColumn);
+		
+		return table;
+	}
+
+
 	private MenuBar initializeMenuBar(Stage primaryStage) {
 		MenuBar menuBar = new MenuBar();
 		
