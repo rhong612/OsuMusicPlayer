@@ -52,6 +52,12 @@ public class Main extends Application
 	private TableView<Song> initializeTableView()
 	{
 		TableView<Song> table = new TableView<>();
+		table.setOnMouseClicked(event -> {
+			if (event.getClickCount() == 2) {
+				Song song = table.getSelectionModel().getSelectedItem();
+				player.play(song);
+			}
+		});
 		
 		TableColumn<Song, String> nameColumn = new TableColumn<>("Name");
 		nameColumn.setCellValueFactory(new PropertyValueFactory<Song, String>("name"));
@@ -106,7 +112,7 @@ public class Main extends Application
 			@Override
 			public void handle(ActionEvent arg0)
 			{
-				player.play();
+				//player.play();
 			}
 		});
 		MenuItem pauseItem = new MenuItem("Pause");

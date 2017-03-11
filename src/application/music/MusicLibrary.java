@@ -8,9 +8,9 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 public class MusicLibrary
@@ -24,6 +24,7 @@ public class MusicLibrary
 	public void addFile(Stage stage) {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Select a file to add");
+		fileChooser.getExtensionFilters().add(new ExtensionFilter("MP3", "*.mp3"));
 		File file = fileChooser.showOpenDialog(stage);
 		
 		if (file == null) {
