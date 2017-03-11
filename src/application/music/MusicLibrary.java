@@ -30,7 +30,7 @@ public class MusicLibrary
 		if (file == null) {
 			return;
 		}
-		
+		extractOsuMetaData(file);
 		if (file.getName().endsWith((".mp3"))) {
 			songData.add(new Song(file.getName(), "test", "test", file.getAbsolutePath()));
 		}
@@ -40,8 +40,19 @@ public class MusicLibrary
 		}
 	}
 	
-	//TODO: Will be implemented in the future
-	private ArrayList<String> extractMp3MetaData() {
+	private ArrayList<String> extractOsuMetaData(File file) {
+		File parentFolder = file.getParentFile();
+		if (!parentFolder.isDirectory()) {
+			return null;
+		}
+		
+		File[] osuFiles = parentFolder.listFiles((dir, name) -> name.endsWith(".osu"));
+		
+		if (osuFiles == null) {
+			return null;
+		}
+		
+		System.out.println(osuFiles[0]);
 		return null;
 	}
 	
