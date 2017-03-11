@@ -2,8 +2,17 @@ package application.music;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import org.jaudiotagger.audio.AudioFile;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.audio.exceptions.CannotReadException;
+import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
+import org.jaudiotagger.audio.mp3.MP3AudioHeader;
+import org.jaudiotagger.tag.TagException;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -41,13 +50,14 @@ public class MusicLibrary
 			try
 			{
 				metaData = extractOsuMetaData(file);
+				String length = findMP3Duration(file);
 				if (metaData == null) {
 					Alert alert = new Alert(AlertType.ERROR, ".osu file not found!", ButtonType.OK);
 					alert.showAndWait();
-					songData.add(new Song(file.getName(), "", "", file.getAbsolutePath()));
+					songData.add(new Song(file.getName(), "", length, file.getAbsolutePath()));
 				}
 				else {
-					songData.add(new Song(metaData.get(TITLE).replace("Title:", ""), metaData.get(ARTIST).replace("Artist:", ""), "test", file.getAbsolutePath()));
+					songData.add(new Song(metaData.get(TITLE).replace("Title:", ""), metaData.get(ARTIST).replace("Artist:", ""), length, file.getAbsolutePath()));
 				}
 			}
 			catch (FileNotFoundException e)
@@ -60,6 +70,23 @@ public class MusicLibrary
 			Alert alert = new Alert(AlertType.ERROR, "Please select an mp3 file!", ButtonType.OK);
 			alert.showAndWait();
 		}
+	}
+	
+	
+	private String findMP3Duration(File mp3File) {
+		String length = "";
+		try
+		{
+			AudioFile audioFile = AudioFileIO.read(mp3File);
+			MP3AudioHeader mp3Header = (MP3AudioHeader) audioFile.getAudioHeader();
+			length = mp3Header.getTrackLengthAsString();
+		}
+		catch (CannotReadException | IOException | TagException | ReadOnlyFileException
+				| InvalidAudioFrameException e)
+		{
+			e.printStackTrace();
+		}
+		return length;
 	}
 	
 	private ArrayList<String> extractOsuMetaData(File file) throws FileNotFoundException {
