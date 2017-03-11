@@ -83,6 +83,7 @@ public class MusicLibrary
 				metaData.add(reader.nextLine()); //Artist
 			}
 		}
+		reader.close();
 		return metaData;
 	}
 	
