@@ -31,6 +31,8 @@ public class MusicLibrary
 	private static final int TITLE = 0;
 	private static final int ARTIST = 1;
 	
+	private static final long SIZE_CUTOFF = 1000000; //1 Megabyte
+	
 	public MusicLibrary() {
 		songData = FXCollections.observableArrayList();
 	}
@@ -45,14 +47,16 @@ public class MusicLibrary
 			try
 			{
 				metaData = extractOsuMetaData(file);
-				String length = findMP3Duration(file);
+				//String length = findMP3Duration(file);
 				if (metaData == null) {
+					/*
 					Alert alert = new Alert(AlertType.ERROR, ".osu file not found!", ButtonType.OK);
 					alert.showAndWait();
-					songData.add(new Song(file.getName(), "", length, file.getAbsolutePath()));
+					*/
+					songData.add(new Song(file.getName(), "", "", file.getAbsolutePath()));
 				}
 				else {
-					songData.add(new Song(metaData.get(TITLE).replace("Title:", ""), metaData.get(ARTIST).replace("Artist:", ""), length, file.getAbsolutePath()));
+					songData.add(new Song(metaData.get(TITLE).replace("Title:", ""), metaData.get(ARTIST).replace("Artist:", ""), "", file.getAbsolutePath()));
 				}
 			}
 			catch (FileNotFoundException e)
@@ -100,13 +104,12 @@ public class MusicLibrary
 		Scanner reader = new Scanner(osuFiles[0]);
 		while (reader.hasNextLine()) {
 			String line = reader.nextLine();
-			if (line.equals("[Metadata]")) {
-				metaData.add(reader.nextLine()); //Title
-				metaData.add(reader.nextLine()); //Artist
+			if (line.startsWith("Title:") || line.startsWith("Artist:")) {
+				metaData.add(line);
 			}
 		}
 		reader.close();
-		return metaData;
+		return metaData.size() == 2 ? metaData : null;
 	}
 	
 	public void addFolder(File directory) {
@@ -114,6 +117,23 @@ public class MusicLibrary
 			return;
 		}
 		
+		File[] subDirectories = directory.listFiles();
+		final int SIZE = 10;
+		File[][] mp3Files = new File[subDirectories.length][SIZE];
+		
+		for (int i = 0; i < subDirectories.length; i++) {
+			mp3Files[i] = subDirectories[i].listFiles((dir, name) -> name.endsWith(".mp3"));
+		}
+		
+		for (int i = 0; i < mp3Files.length; i++) {
+			if (mp3Files[i] != null) {
+				for (int j = 0; j < mp3Files[i].length; j++) {
+					if (mp3Files[i][j].length() > SIZE_CUTOFF) {
+						addFile(mp3Files[i][j]);
+					}
+				}	
+			}
+		}
 	}
 
 	public void removeFile(Stage primaryStage)
