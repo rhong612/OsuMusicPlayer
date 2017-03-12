@@ -18,6 +18,8 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -67,10 +69,20 @@ public class FXMLController
 	@FXML
 	private MenuItem sortFavorites;
 	
+	@FXML
+	private ImageView playButton;
+	
 	private MusicPlayer player;
 	private MusicLibrary library;
 
 	private Stage stage;
+	
+	
+
+	
+	private static final Image pauseImage = new Image("file:res/pause.png");
+	private static final Image playImage = new Image("file:res/play.png");
+	
 	
 	@FXML
 	public void initialize()
@@ -86,8 +98,7 @@ public class FXMLController
 		tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		tableView.setOnMouseClicked(event -> {
 			if (event.getClickCount() == 2) {
-				Song song = tableView.getSelectionModel().getSelectedItem();
-				player.play(song);
+				playSelectedSong();
 			}
 		});
 		tableView.setItems(library.getSongData());
@@ -125,8 +136,7 @@ public class FXMLController
 			@Override
 			public void handle(ActionEvent arg0)
 			{
-				Song song = tableView.getSelectionModel().getSelectedItem();
-				player.play(song);
+				playSelectedSong();
 			}
 		});
 		
@@ -134,7 +144,7 @@ public class FXMLController
 			@Override
 			public void handle(ActionEvent arg0)
 			{
-				player.pause();
+				pauseSong();
 			}
 		});
 		
@@ -168,6 +178,15 @@ public class FXMLController
 				library.setImageVisible();
 			}
 		});
+		
+		playButton.setOnMouseClicked(event -> {
+			if (playButton.getImage() == playImage) {
+				playSelectedSong();
+			}
+			else {
+				pauseSong();
+			}
+		});
 	}
 
 	private File chooseFile(Stage stage) {
@@ -181,6 +200,17 @@ public class FXMLController
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setTitle("Select the Songs folder");
 		return directoryChooser.showDialog(stage);
+	}
+	
+	private void playSelectedSong() {
+		Song song = tableView.getSelectionModel().getSelectedItem();
+		player.play(song);
+		playButton.setImage(pauseImage);
+	}
+	
+	private void pauseSong() {
+		player.pause();
+		playButton.setImage(playImage);
 	}
 	
 	public void setStage(Stage stage) {

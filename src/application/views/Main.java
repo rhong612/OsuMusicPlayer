@@ -34,7 +34,7 @@ import javafx.scene.layout.VBox;
 public class Main extends Application
 {
 	public static final int WINDOW_WIDTH = 500; //Temporary
-	public static final int WINDOW_HEIGHT = 300; //Temporary
+	public static final int WINDOW_HEIGHT = 400; //Temporary
 	
 	private FXMLController controller;
 	

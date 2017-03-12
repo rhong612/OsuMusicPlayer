@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:controller="application.controller.FXMLController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.FXMLController">
    <children>
       <VBox prefHeight="480.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -46,7 +46,7 @@
             <TableView fx:id="tableView" prefHeight="370.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
               <columns>
                 <TableColumn fx:id="nameColumn" prefWidth="200.0" text="Name" />
-                <TableColumn fx:id="artistColumn" prefWidth="75.0" text="Artist" />
+                <TableColumn fx:id="artistColumn" prefWidth="150.0" text="Artist" />
                   <TableColumn fx:id="lengthColumn" prefWidth="75.0" text="Length" />
               </columns>
             </TableView>
@@ -69,20 +69,26 @@
                   </VBox>
                   <HBox prefHeight="150.0" prefWidth="213.0">
                      <children>
-                        <ImageView fitHeight="55.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="44.0" fitWidth="56.8" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../res/reverse.png" />
                            </image>
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
                         </ImageView>
-                        <ImageView fitHeight="55.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="playButton" fitHeight="55.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../res/play.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="55.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="44.0" fitWidth="56.8" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../res/forward.png" />
                            </image>
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
                         </ImageView>
                      </children>
                      <padding>
