@@ -16,7 +16,11 @@ import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jaudiotagger.audio.mp3.MP3AudioHeader;
 import org.jaudiotagger.tag.TagException;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -29,6 +33,7 @@ import javafx.stage.Stage;
 public class MusicLibrary
 {
 	private ObservableList<Song> songData;
+	private IntegerProperty numSongs;
 	
 	private static final int TITLE = 0;
 	private static final int ARTIST = 1;
@@ -37,6 +42,7 @@ public class MusicLibrary
 	
 	public MusicLibrary() {
 		songData = FXCollections.observableArrayList();
+		numSongs = new SimpleIntegerProperty(0);
 	}
 	
 	public void addFile(File file) {
@@ -49,16 +55,16 @@ public class MusicLibrary
 			try
 			{
 				metaData = extractOsuMetaData(file);
-				//String length = findMP3Duration(file);
+				String length = findMP3Duration(file);
 				if (metaData == null) {
 					/*
 					Alert alert = new Alert(AlertType.ERROR, ".osu file not found!", ButtonType.OK);
 					alert.showAndWait();
 					*/
-					songData.add(new Song(file.getName(), "", "", file.getAbsolutePath()));
+					songData.add(new Song(file.getName(), "", length, file.getAbsolutePath()));
 				}
 				else {
-					songData.add(new Song(metaData.get(TITLE).replace("Title:", ""), metaData.get(ARTIST).replace("Artist:", ""), "", file.getAbsolutePath()));
+					songData.add(new Song(metaData.get(TITLE).replace("Title:", ""), metaData.get(ARTIST).replace("Artist:", ""), length, file.getAbsolutePath()));
 				}
 			}
 			catch (FileNotFoundException e)
@@ -66,6 +72,7 @@ public class MusicLibrary
 				//Something is seriously wrong if this occurs
 				e.printStackTrace();
 			}
+			numSongs.setValue(numSongs.getValue() + 1);
 		}
 		else {
 			Alert alert = new Alert(AlertType.ERROR, "Please select an mp3 file!", ButtonType.OK);
@@ -155,5 +162,7 @@ public class MusicLibrary
 		return songData;
 	}
 	
-	
+	public IntegerProperty getNumSongs() {
+		return numSongs;
+	}
 }

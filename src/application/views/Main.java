@@ -21,6 +21,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
@@ -45,9 +46,13 @@ public class Main extends Application
 		
 		MenuBar menuBar = initializeMenuBar(primaryStage);
 		songTable = initializeTableView();
+		TextField songCount = new TextField();
+		songCount.setEditable(false);
+		songCount.setStyle("-fx-background-color: pink; -fx-cursor: default;");
+		songCount.textProperty().bind(library.getNumSongs().asString());
 		
 		Scene scene = new Scene(new VBox(), WINDOW_WIDTH, WINDOW_HEIGHT);
-        ((VBox) scene.getRoot()).getChildren().addAll(menuBar, songTable);
+        ((VBox) scene.getRoot()).getChildren().addAll(menuBar, songTable, songCount);
 		
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		
