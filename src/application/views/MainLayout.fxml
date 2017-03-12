@@ -7,30 +7,30 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:controller="application.controller.FXMLController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox prefHeight="480.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <MenuBar>
+            <MenuBar fx:id="menuBar">
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
-                        <MenuItem mnemonicParsing="false" text="Open File" />
-                    <MenuItem mnemonicParsing="false" text="Open Folder" />
-                        <MenuItem mnemonicParsing="false" text="Delete File" />
+                        <MenuItem fx:id="addFileItem" mnemonicParsing="false" text="Open File" />
+                    <MenuItem fx:id="addFolderItem" mnemonicParsing="false" text="Open Folder" />
+                        <MenuItem fx:id="deleteFileItem" mnemonicParsing="false" text="Delete File" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Play" />
-                        <MenuItem mnemonicParsing="false" text="Pause" />
-                        <CheckMenuItem mnemonicParsing="false" text="Repeat" />
-                        <CheckMenuItem mnemonicParsing="false" text="Shuffle" />
-                        <CheckMenuItem mnemonicParsing="false" text="Show Image" />
+                    <MenuItem fx:id="playItem" mnemonicParsing="false" text="Play" />
+                        <MenuItem fx:id="pauseItem" mnemonicParsing="false" text="Pause" />
+                        <CheckMenuItem fx:id="repeatItem" mnemonicParsing="false" text="Repeat" />
+                        <CheckMenuItem fx:id="shuffleItem" mnemonicParsing="false" text="Shuffle" />
+                        <CheckMenuItem fx:id="showImageItem" mnemonicParsing="false" text="Show Image" />
                         <Menu mnemonicParsing="false" text="Sort">
                           <items>
-                            <MenuItem mnemonicParsing="false" text="Alphabetical" />
-                              <MenuItem mnemonicParsing="false" text="Favorites" />
+                            <MenuItem fx:id="sortAlphabetical" mnemonicParsing="false" text="Alphabetical" />
+                              <MenuItem fx:id="sortFavorites" mnemonicParsing="false" text="Favorites" />
                           </items>
                         </Menu>
                   </items>
@@ -43,11 +43,11 @@
                 </Menu>
               </menus>
             </MenuBar>
-            <TableView prefHeight="370.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
+            <TableView fx:id="tableView" prefHeight="370.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
               <columns>
-                <TableColumn prefWidth="200.0" text="Name" />
-                <TableColumn prefWidth="75.0" text="Artist" />
-                  <TableColumn prefWidth="75.0" text="Length" />
+                <TableColumn fx:id="nameColumn" prefWidth="200.0" text="Name" />
+                <TableColumn fx:id="artistColumn" prefWidth="75.0" text="Artist" />
+                  <TableColumn fx:id="lengthColumn" prefWidth="75.0" text="Length" />
               </columns>
             </TableView>
             <HBox prefHeight="100.0" prefWidth="200.0">
