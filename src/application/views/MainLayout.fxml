@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefHeight="480.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                        <MenuItem mnemonicParsing="false" text="Open File" />
+                    <MenuItem mnemonicParsing="false" text="Open Folder" />
+                        <MenuItem mnemonicParsing="false" text="Delete File" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Play" />
+                        <MenuItem mnemonicParsing="false" text="Pause" />
+                        <CheckMenuItem mnemonicParsing="false" text="Repeat" />
+                        <CheckMenuItem mnemonicParsing="false" text="Shuffle" />
+                        <CheckMenuItem mnemonicParsing="false" text="Show Image" />
+                        <Menu mnemonicParsing="false" text="Sort">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Alphabetical" />
+                              <MenuItem mnemonicParsing="false" text="Favorites" />
+                          </items>
+                        </Menu>
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                        <MenuItem mnemonicParsing="false" text="Bug Report" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <TableView prefHeight="370.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
+              <columns>
+                <TableColumn prefWidth="200.0" text="Name" />
+                <TableColumn prefWidth="75.0" text="Artist" />
+                  <TableColumn prefWidth="75.0" text="Length" />
+              </columns>
+            </TableView>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <ImageView fitHeight="90.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../res/Osu_icon.png" />
+                     </image>
+                  </ImageView>
+                  <VBox prefHeight="90.0" prefWidth="448.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="Song Name" />
+                        <Label text="Artist" />
+                        <Slider prefHeight="14.0" prefWidth="276.0" />
+                     </children>
+                     <HBox.margin>
+                        <Insets top="10.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <HBox prefHeight="150.0" prefWidth="213.0">
+                     <children>
+                        <ImageView fitHeight="55.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../res/reverse.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="55.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../res/play.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="55.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../res/forward.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </HBox>
+               </children>
+            </HBox>
+            <TextField editable="false" style="-fx-background-color: pink; -fx-cursor: default;" text="Song Count: 0" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
