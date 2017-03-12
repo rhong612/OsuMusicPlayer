@@ -146,14 +146,15 @@ public class MusicLibrary
 		}
 	}
 
-	public void removeFile(Song song)
+	public void removeFile(ObservableList<Song> songs)
 	{
-		if (song != null) {
-			Alert alert = new Alert(AlertType.WARNING, "This will remove the mp3 file from your library. Are you sure?", ButtonType.YES, ButtonType.NO);
+		int songCount = songs.size();
+		if (songCount > 0) {
+			Alert alert = new Alert(AlertType.WARNING, "This will remove the mp3 file(s) from your library. Are you sure?", ButtonType.YES, ButtonType.NO);
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get().equals(ButtonType.YES)) {
-				songData.remove(song);
-				numSongs.setValue(numSongs.getValue() - 1);		
+				songData.removeAll(songs);
+				numSongs.setValue(numSongs.getValue() - songCount);		
 			}
 		}
 	}

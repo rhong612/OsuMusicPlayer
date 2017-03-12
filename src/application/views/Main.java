@@ -19,6 +19,7 @@ import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -80,6 +81,7 @@ public class Main extends Application
 		
 		table.setItems(library.getSongData());
 		table.getColumns().addAll(nameColumn, artistColumn, lengthColumn);
+		table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		
 		return table;
 	}
@@ -111,7 +113,7 @@ public class Main extends Application
 			@Override
 			public void handle(ActionEvent arg0)
 			{
-				library.removeFile(songTable.getSelectionModel().getSelectedItem());
+				library.removeFile(songTable.getSelectionModel().getSelectedItems());
 			}
 		});
 		fileMenu.getItems().addAll(addFileItem, addFolderItem, removeFileItem);
