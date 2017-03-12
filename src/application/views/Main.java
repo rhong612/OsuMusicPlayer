@@ -111,7 +111,7 @@ public class Main extends Application
 			@Override
 			public void handle(ActionEvent arg0)
 			{
-				library.removeFile(primaryStage);
+				library.removeFile(songTable.getSelectionModel().getSelectedItem());
 			}
 		});
 		fileMenu.getItems().addAll(addFileItem, addFolderItem, removeFileItem);

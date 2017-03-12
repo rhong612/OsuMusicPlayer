@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Scanner;
 
 import org.jaudiotagger.audio.AudioFile;
@@ -145,10 +146,16 @@ public class MusicLibrary
 		}
 	}
 
-	public void removeFile(Stage primaryStage)
+	public void removeFile(Song song)
 	{
-		// TODO Auto-generated method stub
-		System.out.println("Remove file pressed");
+		if (song != null) {
+			Alert alert = new Alert(AlertType.WARNING, "This will remove the mp3 file from your library. Are you sure?", ButtonType.YES, ButtonType.NO);
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get().equals(ButtonType.YES)) {
+				songData.remove(song);
+				numSongs.setValue(numSongs.getValue() - 1);		
+			}
+		}
 	}
 
 	public void setImageVisible()
