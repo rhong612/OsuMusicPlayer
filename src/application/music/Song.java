@@ -9,13 +9,15 @@ public class Song
 	private SimpleStringProperty length;
 	
 	private String fileLocation;
+	private String backgroundLocation;
 	
-	public Song(String name, String artist, String length, String location) {
+	public Song(String name, String artist, String length, String location, String background) {
 		this.name = new SimpleStringProperty(name);
 		this.artist = new SimpleStringProperty(artist);
 		this.length = new SimpleStringProperty(length);
 		
 		fileLocation = location;
+		backgroundLocation = background;
 	}
 
     public String getName() {
@@ -42,5 +44,9 @@ public class Song
     
     public String getFileLocation() {
     	return fileLocation;
+    }
+    
+    public String getBackgroundLocation() {
+    	return backgroundLocation;
     }
 }

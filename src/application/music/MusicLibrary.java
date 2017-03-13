@@ -44,6 +44,7 @@ public class MusicLibrary
 
 	private static final int TITLE = 0;
 	private static final int ARTIST = 1;
+	private static final int BACKGROUND = 2;
 
 	private static final String SPLITTER = "@@@";
 	private static final long SIZE_CUTOFF = 1000000; // 1 Megabyte
@@ -79,13 +80,13 @@ public class MusicLibrary
 					 * ".osu file not found!", ButtonType.OK);
 					 * alert.showAndWait();
 					 */
-					Song song = new Song(file.getName(), " ", length, file.getAbsolutePath());
+					Song song = new Song(file.getName(), " ", length, file.getAbsolutePath(), " ");
 					songData.add(song);
 					addSongInformationToLibrary(song);
 				}
 				else
 				{
-					Song song = new Song(metaData.get(TITLE).replace("Title:", ""), metaData.get(ARTIST).replace("Artist:", ""), length, file.getAbsolutePath());
+					Song song = new Song(metaData.get(TITLE).replace("Title:", ""), metaData.get(ARTIST).replace("Artist:", ""), length, file.getAbsolutePath(), metaData.get(BACKGROUND));
 					songData.add(song);
 					addSongInformationToLibrary(song);
 				}
@@ -145,9 +146,31 @@ public class MusicLibrary
 			{
 				metaData.add(line);
 			}
+			else if (line.startsWith("//Background and Video events")) {
+				System.out.println(line);
+				line = reader.nextLine();
+
+				System.out.println(line);
+				if (line.contains(".avi")) {
+					line = reader.nextLine();
+				}
+
+				System.out.println(line);
+				
+				if (line.contains(".jpg") || line.contains(".png")) {
+					String backgroundImageName = line.substring(line.indexOf("\""), line.lastIndexOf("\""));
+					String backgroundImageLocation = osuFiles[0].getParentFile().getAbsolutePath() + "/" + backgroundImageName;
+					metaData.add(backgroundImageLocation);	
+				}
+				//Else no image
+				else {
+					metaData.add(" ");
+				}
+			}
+			
 		}
 		reader.close();
-		return metaData.size() == 2 ? metaData : null;
+		return metaData.size() == 3 ? metaData : null;
 	}
 
 	public void addFolder(File directory)
@@ -262,7 +285,7 @@ public class MusicLibrary
 				while (in.hasNextLine()) {
 					String line = in.nextLine();
 					String[] components = line.split(SPLITTER);
-					songData.add(new Song(components[0], components[1],components[2], components[3]));
+					songData.add(new Song(components[0], components[1],components[2], components[3], components[4]));
 					songCount++;
 					songCountStringProperty.setValue("Song Count: " + songCount);
 				}
@@ -276,7 +299,7 @@ public class MusicLibrary
 	
 	private void addSongInformationToLibrary(Song song) {
 		try (FileWriter writer = new FileWriter(libraryFile, true)) {
-			writer.write(song.getName() + SPLITTER + song.getArtist() + SPLITTER + song.getLength() + SPLITTER + song.getFileLocation() + "\n");
+			writer.write(song.getName() + SPLITTER + song.getArtist() + SPLITTER + song.getLength() + SPLITTER + song.getFileLocation() + SPLITTER + song.getBackgroundLocation() + "\n");
 		}
 		catch (IOException e)
 		{
