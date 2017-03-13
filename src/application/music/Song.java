@@ -21,7 +21,7 @@ public class Song
 		fileLocation = location.replace("\\", "/");
 		
 		if (background != MusicLibrary.UNKNOWN_FIELD_VALUE) {
-			backgroundLocation = background.replace("\\", "/").replaceAll(" ", "%20");	
+			backgroundLocation = background.replace("\\", "/");	
 		}
 		else {
 			backgroundLocation = background;
@@ -61,7 +61,7 @@ public class Song
     }
     
     public Image getBackgroundImage() {
-    	return new Image("file:///" + backgroundLocation);
+    	return new Image("file:///" + backgroundLocation.replaceAll(" ", "%20"));
     }
     
     public boolean hasImage() {
