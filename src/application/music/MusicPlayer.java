@@ -1,6 +1,9 @@
 package application.music;
 
 
+import java.io.File;
+import java.net.URI;
+
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -34,7 +37,12 @@ public class MusicPlayer
 				player.dispose();
 			}
 			currentSong = song;
-			player = new MediaPlayer(new Media("file:///" + song.getFileLocation()));
+			String location = song.getFileLocation();
+			System.out.println(location);
+			File f = new File(location);
+			System.out.println(f.getAbsolutePath());
+			URI uri = f.toURI();
+			player = new MediaPlayer(new Media(uri.toString()));
 			player.play();	
 		}
 		
