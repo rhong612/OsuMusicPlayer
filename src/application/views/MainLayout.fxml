@@ -17,7 +17,8 @@
                   <items>
                         <MenuItem fx:id="addFileItem" mnemonicParsing="false" text="Open File" />
                     <MenuItem fx:id="addFolderItem" mnemonicParsing="false" text="Open Folder" />
-                        <MenuItem fx:id="deleteFileItem" mnemonicParsing="false" text="Delete File" />
+                        <MenuItem fx:id="deleteFileItem" mnemonicParsing="false" text="Remove File" />
+                        <MenuItem fx:id="removeAllItem" mnemonicParsing="false" text="Remove All" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">

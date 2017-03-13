@@ -49,6 +49,9 @@ public class FXMLController
 	private MenuItem deleteFileItem;
 	
 	@FXML
+	private MenuItem removeAllItem;
+	
+	@FXML
 	private MenuItem playItem;
 	
 	@FXML
@@ -127,6 +130,14 @@ public class FXMLController
 			public void handle(ActionEvent arg0)
 			{
 				library.removeFile(tableView.getSelectionModel().getSelectedItems());
+			}
+		});
+		
+		removeAllItem.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0)
+			{
+				library.clearLibrary();
 			}
 		});
 		

@@ -216,6 +216,12 @@ public class MusicLibrary
 	{
 		return numSongs;
 	}
+	
+	public void clearLibrary() {
+		libraryFile.delete();
+		songData.clear();
+		numSongs.setValue(0);
+	}
 
 	private void initializeLibrary()
 	{
