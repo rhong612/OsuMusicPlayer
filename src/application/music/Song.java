@@ -19,9 +19,15 @@ public class Song
 		this.artist = new SimpleStringProperty(artist);
 		this.length = new SimpleStringProperty(length);
 		fileLocation = location.replace("\\", "/");
-		backgroundLocation = background.replace("\\", "/").replaceAll(" ", "%20");
 		
-		hasImage = background != " ";
+		if (background != MusicLibrary.UNKNOWN_FIELD_VALUE) {
+			backgroundLocation = background.replace("\\", "/").replaceAll(" ", "%20");	
+		}
+		else {
+			backgroundLocation = background;
+		}
+		
+		hasImage = backgroundLocation.contains(".png") || backgroundLocation.contains(".jpg");
 	}
 
     public String getName() {
