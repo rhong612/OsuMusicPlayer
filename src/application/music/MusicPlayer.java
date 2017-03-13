@@ -1,7 +1,5 @@
 package application.music;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -36,7 +34,6 @@ public class MusicPlayer
 				player.dispose();
 			}
 			currentSong = song;
-			System.out.println(song.getFileLocation());
 			player = new MediaPlayer(new Media("file:///" + song.getFileLocation()));
 			player.play();	
 		}

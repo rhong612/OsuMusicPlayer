@@ -1,7 +1,6 @@
 package application.controller;
 
 import java.io.File;
-import java.io.IOException;
 
 import application.music.MusicLibrary;
 import application.music.MusicPlayer;
@@ -9,9 +8,7 @@ import application.music.Song;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;

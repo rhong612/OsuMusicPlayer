@@ -18,7 +18,6 @@ public class Song
 		this.name = new SimpleStringProperty(name);
 		this.artist = new SimpleStringProperty(artist);
 		this.length = new SimpleStringProperty(length);
-		System.out.println(location);
 		fileLocation = location.replace("\\", "/").replaceAll(" ", "%20");
 		backgroundLocation = background.replace("\\", "/").replaceAll(" ", "%20");
 		
