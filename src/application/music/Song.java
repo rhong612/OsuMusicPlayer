@@ -12,23 +12,17 @@ public class Song
 	private String fileLocation;
 	private String backgroundLocation;
 	
-	private Image backgroundImg;
 	private boolean hasImage;
 	
 	public Song(String name, String artist, String length, String location, String background) {
 		this.name = new SimpleStringProperty(name);
 		this.artist = new SimpleStringProperty(artist);
 		this.length = new SimpleStringProperty(length);
+		System.out.println(location);
+		fileLocation = location.replace("\\", "/").replaceAll(" ", "%20");
+		backgroundLocation = background.replace("\\", "/").replaceAll(" ", "%20");
 		
-		fileLocation = "file:///" + location.replace("\\", "/").replaceAll(" ", "%20");
-		backgroundLocation = "file:///" + background.replace("\\", "/").replaceAll(" ", "%20");
-		if (background != " ") {
-			backgroundImg = new Image(backgroundLocation);
-			hasImage = true;
-		}
-		else {
-			hasImage = false;
-		}
+		hasImage = background != " ";
 	}
 
     public String getName() {
@@ -62,7 +56,7 @@ public class Song
     }
     
     public Image getBackgroundImage() {
-    	return backgroundImg;
+    	return new Image("file:///" + backgroundLocation);
     }
     
     public boolean hasImage() {

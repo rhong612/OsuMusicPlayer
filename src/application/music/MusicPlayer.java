@@ -36,7 +36,8 @@ public class MusicPlayer
 				player.dispose();
 			}
 			currentSong = song;
-			player = new MediaPlayer(new Media(song.getFileLocation()));
+			System.out.println(song.getFileLocation());
+			player = new MediaPlayer(new Media("file:///" + song.getFileLocation()));
 			player.play();	
 		}
 		
