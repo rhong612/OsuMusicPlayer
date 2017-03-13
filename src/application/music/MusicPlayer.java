@@ -7,6 +7,8 @@ import java.net.URI;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+import application.controller.FXMLController;
+
 public class MusicPlayer
 {
 	private MediaPlayer player;
@@ -14,11 +16,14 @@ public class MusicPlayer
 	private boolean repeat;
 	private boolean shuffle;
 	
-	public MusicPlayer() {
+	private FXMLController controller;
+	
+	public MusicPlayer(FXMLController controller) {
 		player = null;
 		currentSong = null;
 		repeat = false;
 		shuffle = false;
+		this.controller = controller;
 	}
 	
 	public void play(Song song)
@@ -41,6 +46,19 @@ public class MusicPlayer
 			File f = new File(location);
 			URI uri = f.toURI();
 			player = new MediaPlayer(new Media(uri.toString()));
+			player.setOnEndOfMedia(new Runnable() {
+				@Override
+				public void run()
+				{
+					if (repeat) {
+						play(currentSong);
+					}
+					else {
+						controller.nextSong();
+					}
+					player.play();
+				}
+			});
 			player.play();	
 		}
 		

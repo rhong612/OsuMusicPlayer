@@ -95,7 +95,7 @@ public class FXMLController
 	@FXML
 	public void initialize()
 	{
-		player = new MusicPlayer();
+		player = new MusicPlayer(this);
 		library = new MusicLibrary();
 		
 		nameColumn.setCellValueFactory(new PropertyValueFactory<Song, String>("name"));
@@ -240,5 +240,15 @@ public class FXMLController
 	
 	public void setStage(Stage stage) {
 		this.stage = stage;
+	}
+	
+	public void nextSong() {
+		int nextIndex = tableView.getSelectionModel().getSelectedIndex() + 1;
+		if (nextIndex >= tableView.getItems().size()) {
+			nextIndex = 0;
+		}
+		tableView.getSelectionModel().clearSelection();
+		tableView.getSelectionModel().select(nextIndex);
+		playSelectedSong();
 	}
 }
