@@ -38,6 +38,8 @@ public class MusicLibrary
 
 	private static final String SPLITTER = "@@@";
 	private static final long SIZE_CUTOFF = 1000000; // 1 Megabyte
+	
+	public static final String UNKNOWN_FIELD_VALUE = " ";
 
 	private File libraryFile;
 	
@@ -70,7 +72,7 @@ public class MusicLibrary
 					 * ".osu file not found!", ButtonType.OK);
 					 * alert.showAndWait();
 					 */
-					Song song = new Song(file.getName(), " ", length, file.getAbsolutePath(), " ");
+					Song song = new Song(file.getName(), UNKNOWN_FIELD_VALUE, length, file.getAbsolutePath(), UNKNOWN_FIELD_VALUE);
 					songData.add(song);
 					addSongInformationToLibrary(song);
 				}
@@ -98,7 +100,7 @@ public class MusicLibrary
 
 	private String findMP3Duration(File mp3File)
 	{
-		String length = " ";
+		String length = UNKNOWN_FIELD_VALUE;
 		try
 		{
 			AudioFile audioFile = AudioFileIO.read(mp3File);
@@ -148,7 +150,7 @@ public class MusicLibrary
 				}
 				//Else no image
 				else {
-					metaData.add(" ");
+					metaData.add(UNKNOWN_FIELD_VALUE);
 				}
 			}
 			
