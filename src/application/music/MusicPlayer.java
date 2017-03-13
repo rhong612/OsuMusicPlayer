@@ -36,7 +36,7 @@ public class MusicPlayer
 				player.dispose();
 			}
 			currentSong = song;
-			player = new MediaPlayer(new Media("file:///" + song.getFileLocation().replace("\\", "/").replaceAll(" ", "%20")));
+			player = new MediaPlayer(new Media(song.getFileLocation()));
 			player.play();	
 		}
 		
