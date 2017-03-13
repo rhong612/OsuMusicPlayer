@@ -102,7 +102,7 @@ public class MusicLibrary
 
 	private String findMP3Duration(File mp3File)
 	{
-		String length = "";
+		String length = " ";
 		try
 		{
 			AudioFile audioFile = AudioFileIO.read(mp3File);
