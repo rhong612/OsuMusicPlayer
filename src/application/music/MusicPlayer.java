@@ -38,9 +38,7 @@ public class MusicPlayer
 			}
 			currentSong = song;
 			String location = song.getFileLocation();
-			System.out.println(location);
 			File f = new File(location);
-			System.out.println(f.getAbsolutePath());
 			URI uri = f.toURI();
 			player = new MediaPlayer(new Media(uri.toString()));
 			player.play();	
