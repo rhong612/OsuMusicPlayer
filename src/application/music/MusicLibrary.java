@@ -147,18 +147,12 @@ public class MusicLibrary
 				metaData.add(line);
 			}
 			else if (line.startsWith("//Background and Video events")) {
-				System.out.println(line);
 				line = reader.nextLine();
-
-				System.out.println(line);
 				if (line.contains(".avi")) {
 					line = reader.nextLine();
 				}
-
-				System.out.println(line);
-				
 				if (line.contains(".jpg") || line.contains(".png")) {
-					String backgroundImageName = line.substring(line.indexOf("\""), line.lastIndexOf("\""));
+					String backgroundImageName = line.substring(line.indexOf("\"") + 1, line.lastIndexOf("\""));
 					String backgroundImageLocation = osuFiles[0].getParentFile().getAbsolutePath() + "/" + backgroundImageName;
 					metaData.add(backgroundImageLocation);	
 				}
