@@ -17,6 +17,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -74,6 +75,9 @@ public class FXMLController
 	
 	@FXML
 	private ImageView playButton;
+	
+	@FXML
+	private TextField songCountField;
 	
 	private MusicPlayer player;
 	private MusicLibrary library;
@@ -198,6 +202,8 @@ public class FXMLController
 				pauseSong();
 			}
 		});
+		
+		songCountField.textProperty().bind(library.getSongCountStringProperty());
 	}
 
 	private File chooseFile(Stage stage) {

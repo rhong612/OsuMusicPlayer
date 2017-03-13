@@ -101,7 +101,7 @@
                   </HBox>
                </children>
             </HBox>
-            <TextField editable="false" style="-fx-background-color: pink; -fx-cursor: default;" text="Song Count: 0" />
+            <TextField fx:id="songCountField" editable="false" style="-fx-background-color: pink; -fx-cursor: default;" text="Song Count: 0" />
          </children>
       </VBox>
    </children>

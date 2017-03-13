@@ -22,6 +22,8 @@ import org.jaudiotagger.tag.TagException;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -37,7 +39,8 @@ import javafx.stage.Stage;
 public class MusicLibrary
 {
 	private ObservableList<Song> songData;
-	private IntegerProperty numSongs;
+	private StringProperty songCountStringProperty;
+	private int songCount;
 
 	private static final int TITLE = 0;
 	private static final int ARTIST = 1;
@@ -49,8 +52,9 @@ public class MusicLibrary
 	
 	public MusicLibrary()
 	{
+		songCount = 0;
 		songData = FXCollections.observableArrayList();
-		numSongs = new SimpleIntegerProperty(0);
+		songCountStringProperty = new SimpleStringProperty("Song Count: " + songCount);
 		initializeLibrary();
 	}
 
@@ -91,7 +95,8 @@ public class MusicLibrary
 				// Something is seriously wrong if this occurs
 				e.printStackTrace();
 			}
-			numSongs.setValue(numSongs.getValue() + 1);
+			songCount++;
+			songCountStringProperty.setValue("Song Count: " + songCount);
 		}
 		else
 		{
@@ -187,16 +192,17 @@ public class MusicLibrary
 
 	public void removeFile(ObservableList<Song> songs)
 	{
-		int songCount = songs.size();
-		if (songCount > 0)
+		int songsRemoved = songs.size();
+		if (songsRemoved > 0)
 		{
 			Alert alert = new Alert(AlertType.WARNING,
-					"This will remove the mp3 file(s) from your library. Are you sure?", ButtonType.YES, ButtonType.NO);
+					"This will remove the mp3 file(s) from this program. Are you sure? (Your beatmaps will be unaffected)", ButtonType.YES, ButtonType.NO);
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get().equals(ButtonType.YES))
 			{
 				songData.removeAll(songs);
-				numSongs.setValue(numSongs.getValue() - songCount);
+				songCount -= songsRemoved;
+				songCountStringProperty.setValue("Song Count: " + songCount);
 			}
 		}
 	}
@@ -212,15 +218,22 @@ public class MusicLibrary
 		return songData;
 	}
 
-	public IntegerProperty getNumSongs()
+	public StringProperty getSongCountStringProperty()
 	{
-		return numSongs;
+		return songCountStringProperty;
 	}
 	
 	public void clearLibrary() {
-		libraryFile.delete();
-		songData.clear();
-		numSongs.setValue(0);
+
+		Alert alert = new Alert(AlertType.WARNING,
+				"This will clear your entire library from this program. Are you sure? (Your beatmaps will be unaffected)", ButtonType.YES, ButtonType.NO);
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get().equals(ButtonType.YES))
+		{
+			libraryFile.delete();
+			songData.clear();
+			songCountStringProperty.setValue("Song Count: " + 0);
+		}
 	}
 
 	private void initializeLibrary()
@@ -250,7 +263,8 @@ public class MusicLibrary
 					String line = in.nextLine();
 					String[] components = line.split(SPLITTER);
 					songData.add(new Song(components[0], components[1],components[2], components[3]));
-					numSongs.setValue(numSongs.getValue() + 1);
+					songCount++;
+					songCountStringProperty.setValue("Song Count: " + songCount);
 				}
 			}
 			catch (FileNotFoundException e)
