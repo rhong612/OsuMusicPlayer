@@ -88,8 +88,7 @@ public class MusicLibrary
 				// Something is seriously wrong if this occurs
 				e.printStackTrace();
 			}
-			songCount++;
-			songCountStringProperty.setValue("Song Count: " + songCount);
+			updateSongCount();
 		}
 		else
 		{
@@ -210,10 +209,13 @@ public class MusicLibrary
 			if (result.get().equals(ButtonType.YES))
 			{
 				songData.removeAll(songs);
-				songCount -= songsRemoved;
-				songCountStringProperty.setValue("Song Count: " + songCount);
+				updateSongCount();
 			}
 		}
+	}
+	
+	private void updateSongCount() {
+		songCountStringProperty.setValue("Song Count: " + songData.size());
 	}
 
 	public void setImageVisible()
