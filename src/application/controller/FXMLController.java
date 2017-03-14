@@ -6,6 +6,8 @@ import java.util.Random;
 import application.music.MusicLibrary;
 import application.music.MusicPlayer;
 import application.music.Song;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -77,6 +80,9 @@ public class FXMLController
 	private ImageView backButton;
 	
 	@FXML
+	private Slider timeSlider;
+	
+	@FXML
 	private ImageView backgroundImg;
 	
 	@FXML
@@ -103,7 +109,7 @@ public class FXMLController
 	@FXML
 	public void initialize()
 	{
-		player = new MusicPlayer(this);
+		player = new MusicPlayer(this, timeSlider);
 		library = new MusicLibrary();
 		
 		nameColumn.setCellValueFactory(new PropertyValueFactory<Song, String>("name"));
@@ -203,8 +209,17 @@ public class FXMLController
 				 alert.showAndWait();
 			}
 		});
-		
-		
+		/*
+		timeSlider.valueProperty().addListener(new InvalidationListener() {
+			@Override
+			public void invalidated(Observable arg0)
+			{
+				if (timeSlider.isValueChanging()) {
+					
+				}
+			}
+		});
+		*/
 		playButton.setOnMouseClicked(event -> {
 			if (playButton.getImage() == playImage) {
 				playSelectedSong();

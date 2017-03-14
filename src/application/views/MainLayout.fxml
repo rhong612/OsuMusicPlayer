@@ -54,7 +54,7 @@
                      <children>
                         <Label fx:id="songNameLabel" text="Song Name" />
                         <Label fx:id="artistLabel" text="Artist" />
-                        <Slider prefHeight="14.0" prefWidth="276.0" />
+                        <Slider fx:id="timeSlider" prefHeight="14.0" prefWidth="276.0" />
                      </children>
                      <HBox.margin>
                         <Insets top="10.0" />

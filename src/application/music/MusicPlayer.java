@@ -4,26 +4,33 @@ package application.music;
 import java.io.File;
 import java.net.URI;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Slider;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-
+import javafx.util.Duration;
 import application.controller.FXMLController;
 
 public class MusicPlayer
 {
 	private MediaPlayer player;
 	private Song currentSong;
+	private Duration currentSongDuration;
 	private boolean repeat;
 	private boolean shuffle;
 	
 	private FXMLController controller;
+	private Slider timeSlider;
 	
-	public MusicPlayer(FXMLController controller) {
+	public MusicPlayer(FXMLController controller, Slider timeSlider) {
 		player = null;
 		currentSong = null;
 		repeat = false;
 		shuffle = false;
 		this.controller = controller;
+		this.timeSlider = timeSlider;
+		currentSongDuration = Duration.UNKNOWN;
 	}
 	
 	public void play(Song song)
@@ -62,7 +69,21 @@ public class MusicPlayer
 					player.play();
 				}
 			});
-			player.play();	
+			player.setOnReady(new Runnable() {
+				@Override
+				public void run()
+				{
+					currentSongDuration = player.getMedia().getDuration();
+				}
+			});
+			player.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+				@Override
+				public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue)
+				{
+					timeSlider.setValue(newValue.toMillis() / currentSongDuration.toMillis() * 100.0);
+				}
+			});
+			player.play();
 		}
 		
 
