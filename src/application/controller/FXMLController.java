@@ -240,6 +240,11 @@ public class FXMLController
 	
 	private void playSelectedSong() {
 		Song song = tableView.getSelectionModel().getSelectedItem();
+		if (song == null) {
+			return;
+		}
+		
+		
 		player.play(song);
 		playButton.setImage(pauseImage);
 		
