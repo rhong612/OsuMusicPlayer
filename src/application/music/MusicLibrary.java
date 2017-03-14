@@ -40,6 +40,10 @@ public class MusicLibrary
 	private static final long SIZE_CUTOFF = 1000000; // 1 Megabyte
 	
 	public static final String UNKNOWN_FIELD_VALUE = " ";
+	
+	private static final int NO_FILE = 0;
+	private static final int NO_OSU = 1;
+	private static final int SUCCESS = 2;
 
 	private File libraryFile;
 	
@@ -51,13 +55,22 @@ public class MusicLibrary
 		initializeLibrary();
 	}
 
-	public void addFile(File file)
+	
+	public void addSingleFile(File file) {
+		int returnVal = addFile(file);
+		if (returnVal == NO_OSU) {
+			 Alert alert = new Alert(AlertType.ERROR, ".osu file not found. Mp3 will still be added.", ButtonType.OK);
+			 alert.showAndWait();
+		}
+	}
+	
+	private int addFile(File file)
 	{
 		if (file == null)
 		{
-			return;
+			return NO_FILE;
 		}
-
+		int returnVal = 0;
 		if (file.getName().endsWith((".mp3")))
 		{
 			ArrayList<String> metaData = null;
@@ -67,17 +80,14 @@ public class MusicLibrary
 				String length = findMP3Duration(file);
 				if (metaData == null)
 				{
-					/*
-					 * Alert alert = new Alert(AlertType.ERROR,
-					 * ".osu file not found!", ButtonType.OK);
-					 * alert.showAndWait();
-					 */
+					returnVal = NO_OSU;
 					Song song = new Song(file.getName(), UNKNOWN_FIELD_VALUE, length, file.getAbsolutePath(), UNKNOWN_FIELD_VALUE);
 					songData.add(song);
 					addSongInformationToLibrary(song);
 				}
 				else
 				{
+					returnVal = SUCCESS;
 					Song song = new Song(metaData.get(TITLE).replace("Title:", ""), metaData.get(ARTIST).replace("Artist:", ""), length, file.getAbsolutePath(), metaData.get(BACKGROUND));
 					songData.add(song);
 					addSongInformationToLibrary(song);
@@ -95,6 +105,7 @@ public class MusicLibrary
 			Alert alert = new Alert(AlertType.ERROR, "Please select an mp3 file!", ButtonType.OK);
 			alert.showAndWait();
 		}
+		return returnVal;
 	}
 
 	private String findMP3Duration(File mp3File)
@@ -175,6 +186,7 @@ public class MusicLibrary
 		}
 
 		boolean atLeastOneMatch = false;
+		boolean missingOsu = false;
 		for (int i = 0; i < mp3Files.length; i++)
 		{
 			if (mp3Files[i] != null)
@@ -186,7 +198,10 @@ public class MusicLibrary
 						if (!atLeastOneMatch) {
 							atLeastOneMatch = true;
 						}
-						addFile(mp3Files[i][j]);
+						int returnVal = addFile(mp3Files[i][j]);
+						if (returnVal == NO_OSU) {
+							missingOsu = true;
+						}
 					}
 				}
 			}
@@ -194,6 +209,10 @@ public class MusicLibrary
 		
 		if (!atLeastOneMatch) {
 			 Alert alert = new Alert(AlertType.ERROR, "No files found!", ButtonType.OK);
+			 alert.showAndWait();
+		}
+		else if (missingOsu) {
+			 Alert alert = new Alert(AlertType.ERROR, "One of more .mp3 files is missing a .osu file", ButtonType.OK);
 			 alert.showAndWait();
 		}
 	}

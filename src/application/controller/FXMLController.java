@@ -126,7 +126,7 @@ public class FXMLController
 			@Override
 			public void handle(ActionEvent arg0)
 			{
-				library.addFile(chooseFile(stage));
+				library.addSingleFile(chooseFile(stage));
 			}
 		});
 		
