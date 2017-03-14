@@ -53,6 +53,9 @@ public class MusicPlayer
 					if (repeat) {
 						play(currentSong);
 					}
+					else if (shuffle) {
+						controller.randomSong();
+					}
 					else {
 						controller.nextSong();
 					}

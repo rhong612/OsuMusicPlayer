@@ -218,12 +218,6 @@ public class MusicLibrary
 		songCountStringProperty.setValue("Song Count: " + songData.size());
 	}
 
-	public void setImageVisible()
-	{
-		// TODO Auto-generated method stub
-		System.out.println("Set Image Visible Pressed");
-	}
-
 	public ObservableList<Song> getSongData()
 	{
 		return songData;

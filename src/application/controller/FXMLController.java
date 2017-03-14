@@ -1,6 +1,7 @@
 package application.controller;
 
 import java.io.File;
+import java.util.Random;
 
 import application.music.MusicLibrary;
 import application.music.MusicPlayer;
@@ -262,6 +263,14 @@ public class FXMLController
 		if (nextIndex < 0) {
 			nextIndex = tableView.getItems().size() - 1;
 		}
+		tableView.getSelectionModel().clearSelection();
+		tableView.getSelectionModel().select(nextIndex);
+		playSelectedSong();
+	}
+	
+	public void randomSong() {
+		Random generator = new Random();
+		int nextIndex = generator.nextInt(tableView.getItems().size());
 		tableView.getSelectionModel().clearSelection();
 		tableView.getSelectionModel().select(nextIndex);
 		playSelectedSong();
