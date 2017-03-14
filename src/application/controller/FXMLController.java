@@ -64,6 +64,10 @@ public class FXMLController
 	
 	@FXML
 	private ImageView playButton;
+	@FXML
+	private ImageView nextButton;
+	@FXML
+	private ImageView backButton;
 	
 	@FXML
 	private ImageView backgroundImg;
@@ -193,6 +197,14 @@ public class FXMLController
 			}
 		});
 		
+		nextButton.setOnMouseClicked(event -> {
+			nextSong();
+		});
+		
+		backButton.setOnMouseClicked(event -> {
+			previousSong();
+		});
+		
 		songCountField.textProperty().bind(library.getSongCountStringProperty());
 	}
 
@@ -238,6 +250,17 @@ public class FXMLController
 		int nextIndex = tableView.getSelectionModel().getSelectedIndex() + 1;
 		if (nextIndex >= tableView.getItems().size()) {
 			nextIndex = 0;
+		}
+		tableView.getSelectionModel().clearSelection();
+		tableView.getSelectionModel().select(nextIndex);
+		playSelectedSong();
+	}
+
+	private void previousSong()
+	{
+		int nextIndex = tableView.getSelectionModel().getSelectedIndex() - 1;
+		if (nextIndex < 0) {
+			nextIndex = tableView.getItems().size() - 1;
 		}
 		tableView.getSelectionModel().clearSelection();
 		tableView.getSelectionModel().select(nextIndex);
