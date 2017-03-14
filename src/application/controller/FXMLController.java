@@ -63,15 +63,6 @@ public class FXMLController
 	private CheckMenuItem shuffleItem;
 	
 	@FXML
-	private CheckMenuItem showImageItem;
-	
-	@FXML
-	private MenuItem sortAlphabetical;
-	
-	@FXML
-	private MenuItem sortFavorites;
-	
-	@FXML
 	private ImageView playButton;
 	
 	@FXML
@@ -192,14 +183,6 @@ public class FXMLController
 			}
 		});
 		
-		
-		showImageItem.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent arg0)
-			{
-				library.setImageVisible();
-			}
-		});
 		
 		playButton.setOnMouseClicked(event -> {
 			if (playButton.getImage() == playImage) {

@@ -27,19 +27,11 @@
                         <MenuItem fx:id="pauseItem" mnemonicParsing="false" text="Pause" />
                         <CheckMenuItem fx:id="repeatItem" mnemonicParsing="false" text="Repeat" />
                         <CheckMenuItem fx:id="shuffleItem" mnemonicParsing="false" text="Shuffle" />
-                        <CheckMenuItem fx:id="showImageItem" mnemonicParsing="false" text="Show Image" />
-                        <Menu mnemonicParsing="false" text="Sort">
-                          <items>
-                            <MenuItem fx:id="sortAlphabetical" mnemonicParsing="false" text="Alphabetical" />
-                              <MenuItem fx:id="sortFavorites" mnemonicParsing="false" text="Favorites" />
-                          </items>
-                        </Menu>
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
                     <MenuItem mnemonicParsing="false" text="About" />
-                        <MenuItem mnemonicParsing="false" text="Bug Report" />
                   </items>
                 </Menu>
               </menus>
