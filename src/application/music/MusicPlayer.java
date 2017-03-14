@@ -80,7 +80,9 @@ public class MusicPlayer
 				@Override
 				public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue)
 				{
-					timeSlider.setValue(newValue.toMillis() / currentSongDuration.toMillis() * 100.0);
+					if (!timeSlider.isValueChanging()) {
+						timeSlider.setValue(newValue.toMillis() / currentSongDuration.toMillis() * 100.0);	
+					}
 				}
 			});
 			player.play();
@@ -112,7 +114,9 @@ public class MusicPlayer
 	}
 	
 	public void seek(double newTime) {
-		player.seek(currentSongDuration.multiply(newTime / 100.0));
+		if (player != null) {
+			player.seek(currentSongDuration.multiply(newTime / 100.0));	
+		}
 	}
 
 }
