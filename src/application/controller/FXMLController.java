@@ -30,6 +30,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.util.Duration;
 
 public class FXMLController
 {
@@ -209,17 +210,17 @@ public class FXMLController
 				 alert.showAndWait();
 			}
 		});
-		/*
+		
 		timeSlider.valueProperty().addListener(new InvalidationListener() {
 			@Override
 			public void invalidated(Observable arg0)
 			{
 				if (timeSlider.isValueChanging()) {
-					
+					player.seek(timeSlider.getValue());
 				}
 			}
 		});
-		*/
+		
 		playButton.setOnMouseClicked(event -> {
 			if (playButton.getImage() == playImage) {
 				playSelectedSong();
