@@ -9,6 +9,9 @@ import application.music.Song;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
@@ -62,6 +65,9 @@ public class FXMLController
 	
 	@FXML
 	private CheckMenuItem shuffleItem;
+	
+	@FXML
+	private MenuItem aboutItem;
 	
 	@FXML
 	private ImageView playButton;
@@ -185,6 +191,16 @@ public class FXMLController
 					repeatItem.setSelected(false);	
 				}
 				player.setShuffle(shuffleItem.isSelected());
+			}
+		});
+		
+		aboutItem.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0)
+			{
+				 Alert alert = new Alert(AlertType.NONE,"This application was developed to extract songs from osu beatmaps. You can download and play osu here: https://osu.ppy.sh/\n\nDISCLAIMER:This application and the developer are not affiliated with osu! or any of its trademarks.", ButtonType.OK);
+				 alert.setTitle("About");
+				 alert.showAndWait();
 			}
 		});
 		
