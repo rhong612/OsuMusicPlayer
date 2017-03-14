@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
@@ -78,6 +79,11 @@ public class FXMLController
 	
 	@FXML
 	private TextField songCountField;
+	
+	@FXML
+	private Label songNameLabel;
+	@FXML
+	private Label artistLabel;
 	
 	private MusicPlayer player;
 	private MusicLibrary library;
@@ -231,6 +237,9 @@ public class FXMLController
 		else {
 			backgroundImg.setImage(defaultOsuIcon);
 		}
+		
+		songNameLabel.setText(song.getName());
+		artistLabel.setText(song.getArtist());
 	}
 	
 	private void pauseSong() {

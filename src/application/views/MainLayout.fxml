@@ -60,8 +60,8 @@
                   </ImageView>
                   <VBox prefHeight="90.0" prefWidth="448.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label text="Song Name" />
-                        <Label text="Artist" />
+                        <Label fx:id="songNameLabel" text="Song Name" />
+                        <Label fx:id="artistLabel" text="Artist" />
                         <Slider prefHeight="14.0" prefWidth="276.0" />
                      </children>
                      <HBox.margin>
