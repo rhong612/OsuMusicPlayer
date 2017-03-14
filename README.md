@@ -1,5 +1,5 @@
 # OsuMusicPlayer
-A music player that extracts all songs from your Osu! library. All sound files will be ignored - leaving the background songs from your favorite beatmaps in a neat sortable list. Simply select the Songs folder in your osu! directory and the application will handle the rest!
+A music player that extracts all songs from your osu! library. Simply select the Songs folder in your osu! directory and the application will handle the rest!
 
 ![Alt text](/screenshots/appScreenshot.png?raw=true "Screenshot of application")
 
@@ -14,3 +14,6 @@ If you select "Add File," you can select individual .mp3 files to add the player
 
 ###What if I want to add non-osu mp3 files?
 The application will still add the .mp3 file even if a .osu file is not found, but there will be no image associated with the song and it will be missing information such as the artist's name. Keep in mind that this application is developed with osu! beatmaps in mind.
+
+# Why should I care?
+Obviously, you could just grab all the mp3 files yourself. However, this application saves you all the work. In addition, osu beatmaps tend to have lots of auxiliary sound effects. All of these sound files will be ignored - leaving the background songs from your favorite beatmaps in a neat sortable list. 
