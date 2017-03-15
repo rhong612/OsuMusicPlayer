@@ -280,6 +280,28 @@ public class MusicLibrary
 			if (result.get().equals(ButtonType.YES))
 			{
 				songBank.removeAll(songs);
+				
+
+				//Need to update the library file after removing songs
+				libraryFile.delete();
+				try
+				{
+					libraryFile.createNewFile();
+					try (FileWriter writer = new FileWriter(libraryFile, true)) {
+						for (Song song : songBank) {
+							writer.write(song.getName() + SPLITTER + song.getArtist() + SPLITTER + song.getLength() + SPLITTER + song.getFileLocation() + SPLITTER + song.getBackgroundLocation() + "\n");	
+						}
+					}
+					catch (IOException e)
+					{
+						e.printStackTrace();
+					}
+				}
+				catch (IOException e1)
+				{
+					e1.printStackTrace();
+				}
+				
 				updateSongCount();
 			}
 		}
@@ -366,7 +388,7 @@ public class MusicLibrary
 			}
 		}
 	}
-	
+
 	/**
 	 * Writes song information to the library file
 	 * @param song the song to save
