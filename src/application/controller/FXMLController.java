@@ -88,9 +88,9 @@ public class FXMLController
 	private MusicLibrary library;
 	private Stage stage;
 	
-	public static final Image pauseImage = new Image("file:res/pause.png");
-	public static final Image playImage = new Image("file:res/play.png");
-	public static final Image defaultOsuIcon = new Image("file:res/Osu_icon.png");
+	public static final Image pauseImage = new Image("file:../../res/pause.png");
+	public static final Image playImage = new Image("file:../../res/play.png");
+	public static final Image defaultOsuIcon = new Image("file:../../res/Osu_icon.png");
 	
 	@FXML
 	public void initialize()
