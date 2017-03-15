@@ -170,6 +170,7 @@ public class FXMLController
 			{
 				if (repeatItem.isSelected()) {
 					shuffleItem.setSelected(false);
+					player.setShuffle(false);
 				}
 				player.setRepeat(repeatItem.isSelected());
 			}
@@ -181,6 +182,7 @@ public class FXMLController
 			{
 				if (shuffleItem.isSelected()) {
 					repeatItem.setSelected(false);	
+					player.setRepeat(false);
 				}
 				player.setShuffle(shuffleItem.isSelected());
 			}
