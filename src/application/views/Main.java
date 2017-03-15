@@ -15,8 +15,8 @@ import javafx.scene.Scene;
 public class Main extends Application
 {
 	//Starting sizes - can be adjusted
-	public static final int WINDOW_WIDTH = 500;
-	public static final int WINDOW_HEIGHT = 400;
+	public static final int WINDOW_WIDTH = 750;
+	public static final int WINDOW_HEIGHT = 600;
 
 	@Override
 	public void start(Stage primaryStage) throws IOException

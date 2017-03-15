@@ -38,8 +38,8 @@
             </MenuBar>
             <TableView fx:id="tableView" prefHeight="370.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
               <columns>
-                <TableColumn fx:id="nameColumn" prefWidth="200.0" text="Name" />
-                <TableColumn fx:id="artistColumn" prefWidth="150.0" text="Artist" />
+                <TableColumn fx:id="nameColumn" prefWidth="350.0" text="Name" />
+                <TableColumn fx:id="artistColumn" prefWidth="200.0" text="Artist" />
                   <TableColumn fx:id="lengthColumn" prefWidth="75.0" text="Length" />
               </columns>
             </TableView>
