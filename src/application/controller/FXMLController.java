@@ -111,9 +111,6 @@ public class FXMLController
 		});
 		tableView.setItems(library.getSongData());
 		
-		
-		
-		
 		addFileItem.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0)
@@ -218,16 +215,21 @@ public class FXMLController
 		});
 		
 		nextButton.setOnMouseClicked(event -> {
-			nextSong();
+			playNextSong();
 		});
 		
 		backButton.setOnMouseClicked(event -> {
-			previousSong();
+			playPreviousSong();
 		});
 		
 		songCountField.textProperty().bind(library.getSongCountStringProperty());
 	}
 
+	/**
+	 * Opens file chooser, prompting the user for a .mp3 file
+	 * @param stage
+	 * @return the file chosen
+	 */
 	private File chooseFile(Stage stage) {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Select a file to add");
@@ -235,12 +237,20 @@ public class FXMLController
 		return fileChooser.showOpenDialog(stage);
 	}
 	
+	/**
+	 * Opens directory chooser, prompting the user for a directory
+	 * @param stage
+	 * @return the directory chosen
+	 */
 	private File chooseFolder(Stage stage) {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setTitle("Select the Songs folder");
 		return directoryChooser.showDialog(stage);
 	}
 	
+	/**
+	 * Tells the MusicPlayer to play the selected song
+	 */
 	private void playSelectedSong() {
 		Song song = tableView.getSelectionModel().getSelectedItem();
 		if (song == null) {
@@ -262,16 +272,26 @@ public class FXMLController
 		artistLabel.setText(song.getArtist());
 	}
 	
+	/**
+	 * Tells the MusicPlayer to pause the song
+	 */
 	private void pauseSong() {
 		player.pause();
 		playButton.setImage(playImage);
 	}
 	
+	/**
+	 * Sets the stage for the controller to use when opening file choosers
+	 * @param stage the stage to set
+	 */
 	public void setStage(Stage stage) {
 		this.stage = stage;
 	}
 	
-	public void nextSong() {
+	/**
+	 * Selects the next song in line and plays it
+	 */
+	public void playNextSong() {
 		int nextIndex = tableView.getSelectionModel().getSelectedIndex() + 1;
 		if (nextIndex >= tableView.getItems().size()) {
 			nextIndex = 0;
@@ -281,7 +301,10 @@ public class FXMLController
 		playSelectedSong();
 	}
 
-	private void previousSong()
+	/**
+	 * Selects the previous song in line and plays it
+	 */
+	private void playPreviousSong()
 	{
 		int nextIndex = tableView.getSelectionModel().getSelectedIndex() - 1;
 		if (nextIndex < 0) {
@@ -292,7 +315,10 @@ public class FXMLController
 		playSelectedSong();
 	}
 	
-	public void randomSong() {
+	/**
+	 * Selects a random song and plays it
+	 */
+	public void playRandomSong() {
 		Random generator = new Random();
 		int nextIndex = generator.nextInt(tableView.getItems().size());
 		tableView.getSelectionModel().clearSelection();
@@ -300,6 +326,9 @@ public class FXMLController
 		playSelectedSong();
 	}
 	
+	/**
+	 * Refreshes the table view
+	 */
 	public void updateView() {
 		tableView.refresh();
 	}

@@ -69,10 +69,10 @@ public class MusicPlayer
 						play(currentSong);
 					}
 					else if (shuffle) {
-						controller.randomSong();
+						controller.playRandomSong();
 					}
 					else {
-						controller.nextSong();
+						controller.playNextSong();
 					}
 				}
 			});
