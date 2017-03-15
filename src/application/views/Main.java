@@ -28,7 +28,7 @@ public class Main extends Application
 		controller.setStage(primaryStage);
 		
 		primaryStage.setTitle("osu! Music Player");
-		primaryStage.getIcons().add(FXMLController.defaultOsuIcon);
+		primaryStage.getIcons().add(controller.defaultOsuIcon);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}

@@ -1,7 +1,10 @@
 package application.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
 
 import application.music.MusicLibrary;
 import application.music.MusicPlayer;
@@ -88,15 +91,26 @@ public class FXMLController
 	private MusicLibrary library;
 	private Stage stage;
 	
-	public static final Image pauseImage = new Image("file:../../res/pause.png");
-	public static final Image playImage = new Image("file:../../res/play.png");
-	public static final Image defaultOsuIcon = new Image("file:../../res/Osu_icon.png");
+	private Image pauseImage;
+	private Image playImage;
+	public Image defaultOsuIcon;
 	
 	@FXML
 	public void initialize()
 	{
 		player = new MusicPlayer(this, timeSlider);
 		library = new MusicLibrary(this);
+		
+		try
+		{
+			pauseImage = new Image(FXMLController.class.getResource("/res/pause.png").openStream());
+			playImage = new Image(FXMLController.class.getResource("/res/play.png").openStream());
+			defaultOsuIcon = new Image(FXMLController.class.getResource("/res/Osu_icon.png").openStream());
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 		
 		nameColumn.setCellValueFactory(new PropertyValueFactory<Song, String>("name"));
 		artistColumn.setCellValueFactory(new PropertyValueFactory<Song, String>("artist"));
