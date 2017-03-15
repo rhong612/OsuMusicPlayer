@@ -36,8 +36,6 @@ public class MusicLibrary
 	private static final String SPLITTER = "@@@";
 	private static final long SIZE_CUTOFF = 1000000; // 1 Megabyte
 	
-	public static final String UNKNOWN_FIELD_VALUE = " ";
-	
 	private static final int NO_FILE = 0;
 	private static final int NO_OSU = 1;
 	private static final int SUCCESS = 2;
@@ -79,14 +77,14 @@ public class MusicLibrary
 				if (metaData == null)
 				{
 					returnVal = NO_OSU;
-					Song song = new Song(file.getName(), UNKNOWN_FIELD_VALUE, UNKNOWN_FIELD_VALUE, file.getAbsolutePath(), UNKNOWN_FIELD_VALUE);
+					Song song = new Song(file.getName(), Song.UNKNOWN_FIELD_VALUE, Song.UNKNOWN_FIELD_VALUE, file.getAbsolutePath(), Song.UNKNOWN_FIELD_VALUE);
 					songData.add(song);
 					setMP3DurationAndSave(file, song);
 				}
 				else
 				{
 					returnVal = SUCCESS;
-					Song song = new Song(metaData.get(TITLE).replace("Title:", ""), metaData.get(ARTIST).replace("Artist:", ""), UNKNOWN_FIELD_VALUE, file.getAbsolutePath(), metaData.get(BACKGROUND));
+					Song song = new Song(metaData.get(TITLE).replace("Title:", ""), metaData.get(ARTIST).replace("Artist:", ""), Song.UNKNOWN_FIELD_VALUE, file.getAbsolutePath(), metaData.get(BACKGROUND));
 					songData.add(song);
 					setMP3DurationAndSave(file, song);
 				}
@@ -166,7 +164,7 @@ public class MusicLibrary
 				}
 				//Else no image
 				else {
-					metaData.add(UNKNOWN_FIELD_VALUE);
+					metaData.add(Song.UNKNOWN_FIELD_VALUE);
 				}
 			}
 			

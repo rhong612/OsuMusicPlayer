@@ -30,8 +30,10 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.util.Duration;
 
+/**
+ * Controller to act as a mediator between the models(Library, Player, Songs) and view
+ */
 public class FXMLController
 {
 	@FXML
@@ -45,31 +47,22 @@ public class FXMLController
 	
 	@FXML
 	private MenuBar menuBar;
-	
 	@FXML
 	private MenuItem addFileItem;
-	
 	@FXML
 	private MenuItem addFolderItem;
-
 	@FXML
 	private MenuItem deleteFileItem;
-	
 	@FXML
 	private MenuItem removeAllItem;
-	
 	@FXML
 	private MenuItem playItem;
-	
 	@FXML
 	private MenuItem pauseItem;
-	
 	@FXML
 	private CheckMenuItem repeatItem;
-	
 	@FXML
 	private CheckMenuItem shuffleItem;
-	
 	@FXML
 	private MenuItem aboutItem;
 	
@@ -82,13 +75,10 @@ public class FXMLController
 	
 	@FXML
 	private Slider timeSlider;
-	
 	@FXML
 	private ImageView backgroundImg;
-	
 	@FXML
 	private TextField songCountField;
-	
 	@FXML
 	private Label songNameLabel;
 	@FXML
@@ -96,16 +86,11 @@ public class FXMLController
 	
 	private MusicPlayer player;
 	private MusicLibrary library;
-
 	private Stage stage;
-	
-	
-
 	
 	public static final Image pauseImage = new Image("file:res/pause.png");
 	public static final Image playImage = new Image("file:res/play.png");
 	public static final Image defaultOsuIcon = new Image("file:res/Osu_icon.png");
-	
 	
 	@FXML
 	public void initialize()

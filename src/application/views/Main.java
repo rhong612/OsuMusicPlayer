@@ -9,20 +9,22 @@ import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
+/**
+ * A class that loads the UI from an FXML file
+ */
 public class Main extends Application
 {
-	public static final int WINDOW_WIDTH = 500; //Temporary
-	public static final int WINDOW_HEIGHT = 400; //Temporary
-	
-	private FXMLController controller;
-	
+	//Starting sizes - can be adjusted
+	public static final int WINDOW_WIDTH = 500;
+	public static final int WINDOW_HEIGHT = 400;
+
 	@Override
 	public void start(Stage primaryStage) throws IOException
 	{
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("MainLayout.fxml"));
 		Parent root = loader.load();
 		Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-		controller = loader.getController();
+		FXMLController controller = loader.getController();
 		controller.setStage(primaryStage);
 		
 		primaryStage.setTitle("osu! Music Player");

@@ -12,6 +12,9 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import application.controller.FXMLController;
 
+/**
+ * A music player that plays mp3 files from the MusicLibrary
+ */
 public class MusicPlayer
 {
 	private MediaPlayer player;
@@ -23,6 +26,11 @@ public class MusicPlayer
 	private FXMLController controller;
 	private Slider timeSlider;
 	
+	/**
+	 * Constructs a MusicPlayer instance associated with a given FXMLController
+	 * @param controller
+	 * @param timeSlider
+	 */
 	public MusicPlayer(FXMLController controller, Slider timeSlider) {
 		player = null;
 		currentSong = null;
