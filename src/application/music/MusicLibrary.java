@@ -6,17 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Scanner;
-
-import org.jaudiotagger.audio.AudioFile;
-import org.jaudiotagger.audio.AudioFileIO;
-import org.jaudiotagger.audio.exceptions.CannotReadException;
-import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
-import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
-import org.jaudiotagger.audio.mp3.MP3AudioHeader;
-import org.jaudiotagger.tag.TagException;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -25,6 +18,10 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
+import application.controller.FXMLController;
 
 public class MusicLibrary
 {
@@ -46,13 +43,15 @@ public class MusicLibrary
 	private static final int SUCCESS = 2;
 
 	private File libraryFile;
+	private FXMLController controller;
 	
-	public MusicLibrary()
+	public MusicLibrary(FXMLController controller)
 	{
 		songCount = 0;
 		songData = FXCollections.observableArrayList();
 		songCountStringProperty = new SimpleStringProperty("Song Count: " + songCount);
 		initializeLibrary();
+		this.controller = controller;
 	}
 
 	
@@ -77,20 +76,19 @@ public class MusicLibrary
 			try
 			{
 				metaData = extractOsuMetaData(file);
-				String length = findMP3Duration(file);
 				if (metaData == null)
 				{
 					returnVal = NO_OSU;
-					Song song = new Song(file.getName(), UNKNOWN_FIELD_VALUE, length, file.getAbsolutePath(), UNKNOWN_FIELD_VALUE);
+					Song song = new Song(file.getName(), UNKNOWN_FIELD_VALUE, UNKNOWN_FIELD_VALUE, file.getAbsolutePath(), UNKNOWN_FIELD_VALUE);
 					songData.add(song);
-					addSongInformationToLibrary(song);
+					setMP3DurationAndSave(file, song);
 				}
 				else
 				{
 					returnVal = SUCCESS;
-					Song song = new Song(metaData.get(TITLE).replace("Title:", ""), metaData.get(ARTIST).replace("Artist:", ""), length, file.getAbsolutePath(), metaData.get(BACKGROUND));
+					Song song = new Song(metaData.get(TITLE).replace("Title:", ""), metaData.get(ARTIST).replace("Artist:", ""), UNKNOWN_FIELD_VALUE, file.getAbsolutePath(), metaData.get(BACKGROUND));
 					songData.add(song);
-					addSongInformationToLibrary(song);
+					setMP3DurationAndSave(file, song);
 				}
 			}
 			catch (FileNotFoundException e)
@@ -108,20 +106,28 @@ public class MusicLibrary
 		return returnVal;
 	}
 
-	private String findMP3Duration(File mp3File)
+	private void setMP3DurationAndSave(File mp3File, Song song)
 	{
-		String length = UNKNOWN_FIELD_VALUE;
-		try
-		{
-			AudioFile audioFile = AudioFileIO.read(mp3File);
-			MP3AudioHeader mp3Header = (MP3AudioHeader) audioFile.getAudioHeader();
-			length = mp3Header.getTrackLengthAsString();
+		URI uri = mp3File.toURI();
+		Media media = new Media(uri.toString());
+		MediaPlayer mp = new MediaPlayer(media);
+		mp.setOnReady(() -> {
+			song.setLength(convertDurationToMS(mp.getMedia().getDuration()));
+			mp.dispose();
+			controller.updateView();
+			addSongInformationToLibrary(song);
+		});
+	}
+	
+	private String convertDurationToMS(Duration duration) {
+		int seconds = ((int) duration.toSeconds()) % 60;
+		int minutes = ((int)duration.toSeconds()) / 60;
+		if (seconds < 10) {
+			return minutes + ":0" + seconds;
 		}
-		catch (CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException e)
-		{
-			e.printStackTrace();
+		else {
+			return minutes + ":" + seconds;	
 		}
-		return length;
 	}
 
 	private ArrayList<String> extractOsuMetaData(File file) throws FileNotFoundException
@@ -298,7 +304,7 @@ public class MusicLibrary
 		}
 	}
 	
-	private void addSongInformationToLibrary(Song song) {
+	private synchronized void addSongInformationToLibrary(Song song) {
 		try (FileWriter writer = new FileWriter(libraryFile, true)) {
 			writer.write(song.getName() + SPLITTER + song.getArtist() + SPLITTER + song.getLength() + SPLITTER + song.getFileLocation() + SPLITTER + song.getBackgroundLocation() + "\n");
 		}

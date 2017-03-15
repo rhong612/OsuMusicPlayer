@@ -111,13 +111,13 @@ public class FXMLController
 	public void initialize()
 	{
 		player = new MusicPlayer(this, timeSlider);
-		library = new MusicLibrary();
+		library = new MusicLibrary(this);
 		
 		nameColumn.setCellValueFactory(new PropertyValueFactory<Song, String>("name"));
 		artistColumn.setCellValueFactory(new PropertyValueFactory<Song, String>("artist"));
 		lengthColumn.setCellValueFactory(new PropertyValueFactory<Song, String>("length"));
 		
-
+		
 		tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		tableView.setOnMouseClicked(event -> {
 			if (event.getClickCount() == 2) {
@@ -311,5 +311,9 @@ public class FXMLController
 		tableView.getSelectionModel().clearSelection();
 		tableView.getSelectionModel().select(nextIndex);
 		playSelectedSong();
+	}
+	
+	public void updateView() {
+		tableView.refresh();
 	}
 }
