@@ -23,6 +23,9 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import application.controller.FXMLController;
 
+/**
+ * A class that contains all song data
+ */
 public class MusicLibrary
 {
 	private ObservableList<Song> songData;
@@ -33,7 +36,7 @@ public class MusicLibrary
 	private static final int ARTIST = 1;
 	private static final int BACKGROUND = 2;
 
-	private static final String SPLITTER = "@@@";
+	private static final String SPLITTER = "@@@"; //The delimiter to separate fields in the saved .txt file
 	private static final long SIZE_CUTOFF = 1000000; // 1 Megabyte
 	
 	private static final int NO_FILE = 0;

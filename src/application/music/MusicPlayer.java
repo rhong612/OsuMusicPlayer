@@ -96,33 +96,52 @@ public class MusicPlayer
 		}
 	}
 	
+	/**
+	 * Converts a given file path to a valid URI string
+	 * @param path the path to convert
+	 * @return the path with all illegal URI characters replaced
+	 */
 	private String convertPathToValidURIString(String path) {
 		File f = new File(path);
 		URI uri = f.toURI();
 		return uri.toString();
 	}
 
+	/**
+	 * Pauses the current song
+	 */
 	public void pause()
 	{
 		if (currentSong == null) {
 			return;
 		}
-		
-		if (player.getStatus() == MediaPlayer.Status.PLAYING) {
+		else if (player.getStatus() == MediaPlayer.Status.PLAYING) {
 			player.pause();
 		}
 	}
 
+	/**
+	 * Set whether or not the music player should repeat songs
+	 * @param repeat the repeat flag
+	 */
 	public void setRepeat(boolean repeat)
 	{
 		this.repeat = repeat;
 	}
 
+	/**
+	 * Sets whether or not the music player should shuffle through songs
+	 * @param shuffle the shuffle flag
+	 */
 	public void setShuffle(boolean shuffle)
 	{
 		this.shuffle = shuffle;
 	}
 	
+	/**
+	 * Sets the music player at a particular position of the song. The value should be between 0 and 100 (inclusive).
+	 * @param newTime the new track position of the song
+	 */
 	public void seek(double newTime) {
 		if (player != null) {
 			player.seek(currentSongDuration.multiply(newTime / 100.0));	
