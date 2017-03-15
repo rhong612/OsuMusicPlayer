@@ -28,7 +28,7 @@ import application.controller.FXMLController;
  */
 public class MusicLibrary
 {
-	private ObservableList<Song> songData;
+	private ObservableList<Song> songBank;
 	private StringProperty songCountStringProperty;
 	private int songCount;
 
@@ -46,16 +46,23 @@ public class MusicLibrary
 	private File libraryFile;
 	private FXMLController controller;
 	
+	/**
+	 * Constructs a MusicLibrary with the given controller
+	 * @param controller the controller
+	 */
 	public MusicLibrary(FXMLController controller)
 	{
 		songCount = 0;
-		songData = FXCollections.observableArrayList();
+		songBank = FXCollections.observableArrayList();
 		songCountStringProperty = new SimpleStringProperty("Song Count: " + songCount);
 		initializeLibrary();
 		this.controller = controller;
 	}
 
-	
+	/**
+	 * Adds a single song to the song bank and saves it into the library file. The file must be a .mp3 file.
+	 * @param file the file to add
+	 */
 	public void addSingleFile(File file) {
 		int returnVal = addFile(file);
 		if (returnVal == NO_OSU) {
@@ -64,37 +71,42 @@ public class MusicLibrary
 		}
 	}
 	
+	/**
+	 * Helper method for adding a file to the library 
+	 * @param file the file to add
+	 * @return NO_FILE if no file was found. NO_OSU if a file was found, but no .osu was found in the same directory. SUCCESS if both a .mp3 and .osu file were found.
+	 */
 	private int addFile(File file)
 	{
+		int returnVal = NO_FILE;
 		if (file == null)
 		{
-			return NO_FILE;
+			return returnVal;
 		}
-		int returnVal = 0;
 		if (file.getName().endsWith((".mp3")))
 		{
 			ArrayList<String> metaData = null;
 			try
 			{
-				metaData = extractOsuMetaData(file);
+				File osuFile = findOsuFile(file);
+				metaData = extractOsuMetaData(osuFile);
 				if (metaData == null)
 				{
 					returnVal = NO_OSU;
 					Song song = new Song(file.getName(), Song.UNKNOWN_FIELD_VALUE, Song.UNKNOWN_FIELD_VALUE, file.getAbsolutePath(), Song.UNKNOWN_FIELD_VALUE);
-					songData.add(song);
+					songBank.add(song);
 					setMP3DurationAndSave(file, song);
 				}
 				else
 				{
 					returnVal = SUCCESS;
 					Song song = new Song(metaData.get(TITLE).replace("Title:", ""), metaData.get(ARTIST).replace("Artist:", ""), Song.UNKNOWN_FIELD_VALUE, file.getAbsolutePath(), metaData.get(BACKGROUND));
-					songData.add(song);
+					songBank.add(song);
 					setMP3DurationAndSave(file, song);
 				}
 			}
 			catch (FileNotFoundException e)
 			{
-				// Something is seriously wrong if this occurs
 				e.printStackTrace();
 			}
 			updateSongCount();
@@ -107,6 +119,11 @@ public class MusicLibrary
 		return returnVal;
 	}
 
+	/**
+	 * Finds the duration of a song, sets the song length value to that duration, and saves the song's information to the library file
+	 * @param mp3File the mp3 file to find the duration of
+	 * @param song the song
+	 */
 	private void setMP3DurationAndSave(File mp3File, Song song)
 	{
 		URI uri = mp3File.toURI();
@@ -120,6 +137,11 @@ public class MusicLibrary
 		});
 	}
 	
+	/**
+	 * Convert a given duration to a string with format "mm:ss"
+	 * @param duration the duration to convert
+	 * @return a string containing the duration represented in minutes:seconds
+	 */
 	private String convertDurationToMS(Duration duration) {
 		int seconds = ((int) duration.toSeconds()) % 60;
 		int minutes = ((int)duration.toSeconds()) / 60;
@@ -131,9 +153,14 @@ public class MusicLibrary
 		}
 	}
 
-	private ArrayList<String> extractOsuMetaData(File file) throws FileNotFoundException
-	{
-		File parentFolder = file.getParentFile();
+	
+	/**
+	 * Attempts to find a .osu file in the same directory as the given mp3 file
+	 * @param mp3File the mp3 file
+	 * @return a .osu file if found, null otherwise
+	 */
+	public File findOsuFile(File mp3File) {
+		File parentFolder = mp3File.getParentFile();
 		if (!parentFolder.isDirectory())
 		{
 			return null;
@@ -145,9 +172,19 @@ public class MusicLibrary
 		{
 			return null;
 		}
-
+		return osuFiles[0];
+	}
+	
+	/**
+	 * Parses a .osu file to extract song metadata
+	 * @param file the .osu file to parse
+	 * @return an ArrayList containing osu meta data. The song name will be in index TITLE, the artist will be in index ARTIST, and the background image will be in index BACKGROUND. If no image is found, NO_FIELD_VALUE will be stored in index BACKGROUND.
+	 * @throws FileNotFoundException
+	 */
+	private ArrayList<String> extractOsuMetaData(File file) throws FileNotFoundException
+	{
 		ArrayList<String> metaData = new ArrayList<>();
-		Scanner reader = new Scanner(new BufferedReader(new FileReader(osuFiles[0])));
+		Scanner reader = new Scanner(new BufferedReader(new FileReader(file)));
 		while (reader.hasNextLine())
 		{
 			String line = reader.nextLine();
@@ -162,7 +199,7 @@ public class MusicLibrary
 				}
 				if (line.contains(".jpg") || line.contains(".png")) {
 					String backgroundImageName = line.substring(line.indexOf("\"") + 1, line.lastIndexOf("\""));
-					String backgroundImageLocation = osuFiles[0].getParentFile().getAbsolutePath() + "/" + backgroundImageName;
+					String backgroundImageLocation = file.getParentFile().getAbsolutePath() + "/" + backgroundImageName;
 					metaData.add(backgroundImageLocation);	
 				}
 				//Else no image
@@ -176,6 +213,10 @@ public class MusicLibrary
 		return metaData.size() == 3 ? metaData : null;
 	}
 
+	/**
+	 * Adds all songs found in the Songs osu directory
+	 * @param directory the Songs directory in osu
+	 */
 	public void addFolder(File directory)
 	{
 		if (directory == null)
@@ -224,6 +265,10 @@ public class MusicLibrary
 		}
 	}
 
+	/**
+	 * Remove the given songs from the song bank
+	 * @param songs the songs to remove
+	 */
 	public void removeFile(ObservableList<Song> songs)
 	{
 		int songsRemoved = songs.size();
@@ -234,26 +279,40 @@ public class MusicLibrary
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get().equals(ButtonType.YES))
 			{
-				songData.removeAll(songs);
+				songBank.removeAll(songs);
 				updateSongCount();
 			}
 		}
 	}
 	
+	/**
+	 * Updates the song count property
+	 */
 	private void updateSongCount() {
-		songCountStringProperty.setValue("Song Count: " + songData.size());
+		songCountStringProperty.setValue("Song Count: " + songBank.size());
 	}
 
+	/**
+	 * Retrieves the song bank
+	 * @return the song bank
+	 */
 	public ObservableList<Song> getSongData()
 	{
-		return songData;
+		return songBank;
 	}
 
+	/**
+	 * Retrieves the song count property
+	 * @return the song count property
+	 */
 	public StringProperty getSongCountStringProperty()
 	{
 		return songCountStringProperty;
 	}
 	
+	/**
+	 * Clears the entire song bank and library file
+	 */
 	public void clearLibrary() {
 
 		Alert alert = new Alert(AlertType.WARNING,
@@ -262,11 +321,14 @@ public class MusicLibrary
 		if (result.get().equals(ButtonType.YES))
 		{
 			libraryFile.delete();
-			songData.clear();
+			songBank.clear();
 			songCountStringProperty.setValue("Song Count: " + 0);
 		}
 	}
 
+	/**
+	 * Initializes the library by either creating the appropriate library file or parsing an existing one
+	 */
 	private void initializeLibrary()
 	{
 		libraryFile = new File(System.getProperty("user.home") + "/osuMusicPlayer/songDirectories.txt");
@@ -293,7 +355,7 @@ public class MusicLibrary
 				while (in.hasNextLine()) {
 					String line = in.nextLine();
 					String[] components = line.split(SPLITTER);
-					songData.add(new Song(components[0], components[1],components[2], components[3], components[4]));
+					songBank.add(new Song(components[0], components[1],components[2], components[3], components[4]));
 					songCount++;
 					songCountStringProperty.setValue("Song Count: " + songCount);
 				}
@@ -305,6 +367,10 @@ public class MusicLibrary
 		}
 	}
 	
+	/**
+	 * Writes song information to the library file
+	 * @param song the song to save
+	 */
 	private synchronized void addSongInformationToLibrary(Song song) {
 		try (FileWriter writer = new FileWriter(libraryFile, true)) {
 			writer.write(song.getName() + SPLITTER + song.getArtist() + SPLITTER + song.getLength() + SPLITTER + song.getFileLocation() + SPLITTER + song.getBackgroundLocation() + "\n");
