@@ -19,5 +19,4 @@ The application will still add the .mp3 file even if a .osu file is not found, b
 Obviously, you could just grab all the mp3 files yourself. However, this application saves you all the work. In addition, osu beatmaps tend to have lots of auxiliary sound effects. All of these sound files will be ignored - leaving the background songs from your favorite beatmaps in a neat sortable list. 
 
 # How do I build it?
-No one has time for that, so you can download it here:
-https://www.dropbox.com/s/ol2chntsy4hzkyo/OsuMusicPlayer.jar?dl=0
+No one has time for that, so just head to the Releases section and download the jar!
