@@ -41,26 +41,26 @@ public class MusicPlayer
 		currentSongDuration = Duration.UNKNOWN;
 	}
 	
+	/**
+	 * Plays the given song
+	 * @param song the song to play
+	 */
 	public void play(Song song)
 	{
 		if (song == null) {
 			return;
 		}
 		
-		if (song == currentSong) {
-			if (player.getStatus() == MediaPlayer.Status.PAUSED) {
-				player.play();
-			}	
+		if (song == currentSong && player.getStatus() == MediaPlayer.Status.PAUSED) {
+			player.play();
 		}
 		else {
 			if (player != null) {
 				player.dispose();
 			}
 			currentSong = song;
-			String location = song.getFileLocation();
-			File f = new File(location);
-			URI uri = f.toURI();
-			player = new MediaPlayer(new Media(uri.toString()));
+			String uriStr = convertPathToValidURIString(song.getFileLocation());
+			player = new MediaPlayer(new Media(uriStr));
 			player.setOnEndOfMedia(new Runnable() {
 				@Override
 				public void run()
@@ -74,7 +74,6 @@ public class MusicPlayer
 					else {
 						controller.nextSong();
 					}
-					player.play();
 				}
 			});
 			player.setOnReady(new Runnable() {
@@ -95,9 +94,12 @@ public class MusicPlayer
 			});
 			player.play();
 		}
-		
-
-		player.setCycleCount(repeat ? MediaPlayer.INDEFINITE : 1);
+	}
+	
+	private String convertPathToValidURIString(String path) {
+		File f = new File(path);
+		URI uri = f.toURI();
+		return uri.toString();
 	}
 
 	public void pause()
