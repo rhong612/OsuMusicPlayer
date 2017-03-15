@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
-import javax.imageio.ImageIO;
-
 import application.music.MusicLibrary;
 import application.music.MusicPlayer;
 import application.music.Song;
